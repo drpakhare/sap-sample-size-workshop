@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>SAP Writing & Sample Size Calculation — Hands-on Workshop</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/theme/white.min.css" id="theme" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/monokai.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Sans+3:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap" />
+<style>
+  :root {
+    --r-heading-font: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+    --r-main-font: 'Source Sans 3', 'Source Sans Pro', sans-serif;
+    --r-heading-color: #1a1a2e;
+    --r-main-color: #333;
+    --r-link-color: #2563eb;
+    --accent: #059669;
+    --accent-light: #d1fae5;
+    --warn: #d97706;
+    --warn-light: #fef3c7;
+  }
+  .reveal { font-size: 32px; }
+  .reveal h1 { font-size: 1.8em; color: var(--r-heading-color); }
+  .reveal h2 { font-size: 1.3em; color: var(--r-heading-color); border-bottom: 3px solid var(--accent); padding-bottom: 0.2em; }
+  .reveal h3 { font-size: 1.05em; color: var(--accent); }
+  .reveal .slides section { text-align: left; }
+  .reveal ul, .reveal ol { font-size: 0.88em; line-height: 1.55; }
+  .reveal li { margin-bottom: 0.35em; }
+  .reveal .smaller { font-size: 0.78em; }
+  .reveal .tiny { font-size: 0.65em; }
+
+  /* Title slide */
+  .title-slide { text-align: center !important; }
+  .title-slide h1 { border: none; font-size: 2em !important; }
+  .title-slide .subtitle { color: var(--accent); font-size: 1.1em; font-weight: 600; margin-top: -0.3em; }
+  .title-slide .meta { color: #666; font-size: 0.7em; margin-top: 1.5em; }
+
+  /* Concept cards */
+  .concept-box {
+    background: var(--accent-light); border-left: 5px solid var(--accent);
+    padding: 0.7em 1em; border-radius: 0 8px 8px 0; margin: 0.6em 0; font-size: 0.85em;
+  }
+  .warn-box {
+    background: var(--warn-light); border-left: 5px solid var(--warn);
+    padding: 0.7em 1em; border-radius: 0 8px 8px 0; margin: 0.6em 0; font-size: 0.85em;
+  }
+
+  /* Exercise styling */
+  .exercise-header {
+    background: linear-gradient(135deg, #1e3a5f 0%, #2563eb 100%);
+    color: white; padding: 0.6em 1em; border-radius: 10px; margin-bottom: 0.6em;
+    text-align: center;
+  }
+  .exercise-header h2 { color: white !important; border: none !important; }
+  .exercise-header .exercise-num { font-size: 0.6em; text-transform: uppercase; letter-spacing: 3px; opacity: 0.8; }
+
+  .scenario-box {
+    background: #f0f9ff; border: 2px solid #bfdbfe; border-radius: 10px;
+    padding: 0.8em 1em; margin: 0.5em 0; font-size: 0.82em;
+  }
+  .scenario-box strong { color: #1e40af; }
+
+  .params-table { width: 100%; border-collapse: collapse; font-size: 0.75em; margin: 0.5em 0; }
+  .params-table th { background: #e0e7ff; padding: 0.4em 0.6em; text-align: left; border: 1px solid #c7d2fe; }
+  .params-table td { padding: 0.4em 0.6em; border: 1px solid #e5e7eb; }
+
+  .result-box {
+    background: var(--accent-light); border: 2px solid var(--accent); border-radius: 10px;
+    padding: 0.6em 1em; margin: 0.5em 0; text-align: center;
+  }
+  .result-box .n-value { font-size: 1.8em; font-weight: 700; color: var(--accent); }
+
+  .sap-text {
+    background: #fefce8; border: 1px solid #fde68a; border-radius: 8px;
+    padding: 0.7em 1em; font-style: italic; font-size: 0.72em; line-height: 1.6;
+    color: #713f12; margin: 0.5em 0;
+  }
+
+  .try-it {
+    background: linear-gradient(135deg, var(--accent), #10b981);
+    color: white; padding: 0.5em 1.2em; border-radius: 25px;
+    display: inline-block; font-weight: 700; font-size: 0.85em;
+    margin: 0.5em 0; text-align: center;
+  }
+
+  .pathway-hint {
+    background: #faf5ff; border: 1px solid #d8b4fe; border-radius: 8px;
+    padding: 0.4em 0.8em; font-size: 0.72em; color: #6b21a8; margin: 0.4em 0;
+  }
+
+  /* QR code */
+  .qr-container { text-align: center; margin: 0.5em 0; }
+  .qr-container img { border: 4px solid #e5e7eb; border-radius: 8px; }
+
+  /* Two columns */
+  .cols { display: flex; gap: 1.5em; align-items: flex-start; }
+  .cols > * { flex: 1; }
+
+  /* Footer */
+  .footer-bar {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: #f8fafc; border-top: 1px solid #e2e8f0;
+    padding: 6px 20px; display: flex; justify-content: space-between; align-items: center;
+    font-size: 12px; color: #94a3b8; z-index: 10;
+  }
+  .footer-bar img { height: 28px; opacity: 0.7; }
+
+  /* Section dividers */
+  .section-divider { text-align: center !important; }
+  .section-divider h1 { font-size: 2em !important; color: var(--accent) !important; border: none !important; }
+  .section-divider p { font-size: 0.9em; color: #666; }
+
+  /* Formula */
+  .formula {
+    background: #f1f5f9; border-radius: 8px; padding: 0.5em 1em;
+    font-family: 'Courier New', monospace; font-size: 0.82em; text-align: center;
+    margin: 0.5em 0; border: 1px solid #cbd5e1;
+  }
+
+  /* Diagram boxes */
+  .flow-diagram { display: flex; align-items: center; justify-content: center; gap: 0.3em; flex-wrap: wrap; }
+  .flow-box {
+    background: #e0e7ff; border: 2px solid #818cf8; border-radius: 8px;
+    padding: 0.4em 0.8em; font-size: 0.7em; font-weight: 600; color: #3730a3; text-align: center;
+  }
+  .flow-arrow { font-size: 1.2em; color: #818cf8; }
+
+  /* Responsive for projected slides */
+  @media (max-width: 800px) {
+    .cols { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- TITLE SLIDE -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="title-slide" data-background-gradient="linear-gradient(135deg, #f0fdf4 0%, #ecfeff 50%, #eff6ff 100%)">
+  <img src="images/logo.png" alt="AIIMS Bhopal" style="height:80px; margin-bottom:0.5em;" />
+  <h1 style="margin-bottom:0.1em;">Writing a Statistical Analysis Plan<br>&amp; Calculating Sample Size</h1>
+  <div class="subtitle">Hands-on Workshop using ChooseMyStat</div>
+  <div class="meta">
+    <strong>Dr Abhijit P Pakhare</strong><br />
+    Department of Community &amp; Family Medicine<br />
+    All India Institute of Medical Sciences, Bhopal<br /><br />
+    Protocol Development Workshop — October 2026
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SESSION OBJECTIVES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section>
+  <h2>What to expect from this session</h2>
+  <ul>
+    <li>Revise the <strong>key biostatistics concepts</strong> that underpin sample size</li>
+    <li>Understand what a <strong>Statistical Analysis Plan</strong> should contain — descriptive and inferential</li>
+    <li>Use the <strong>ChooseMyStat</strong> tool to select the correct statistical test</li>
+    <li>Calculate sample size for 5 real study designs — <strong>on your phone</strong></li>
+    <li>Generate a <strong>publication-ready SAP statement</strong> you can copy into your protocol</li>
+  </ul>
+  <div class="warn-box">
+    <strong>This session is NOT about</strong> memorising formulae or manual calculations. It's about making the right choices and writing a defensible SAP.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION: THEORY -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="section-divider" data-background-color="#059669">
+  <h1 style="color:white !important;">Part 1</h1>
+  <p style="color:#d1fae5;">Biostatistics Essentials &amp; The "Why" Behind Sample Size</p>
+</section>
+
+<!-- TYPES OF DATA -->
+<section>
+  <h2>Types of data — this decides everything</h2>
+  <table class="params-table">
+    <tr><th>Type</th><th>Examples</th><th>Summary measure</th><th>Common test</th></tr>
+    <tr><td><strong>Nominal</strong> (categorical, unordered)</td><td>Sex, blood group, disease (yes/no)</td><td>Frequency (%)</td><td>Chi-square</td></tr>
+    <tr><td><strong>Ordinal</strong> (categorical, ordered)</td><td>Pain scale, cancer stage, Likert</td><td>Median (IQR)</td><td>Mann-Whitney</td></tr>
+    <tr><td><strong>Continuous</strong> (interval/ratio)</td><td>Hb, BP, age, weight, FBG</td><td>Mean ± SD <em>or</em> Median (IQR)</td><td>t-test / ANOVA</td></tr>
+  </table>
+  <div class="concept-box" style="margin-top:0.5em;">
+    <strong>Why this matters:</strong> The type of your outcome variable determines which statistical test to use, which in turn determines which sample size calculator to use. Get this wrong → everything downstream is wrong.
+  </div>
+  <aside class="notes">
+    Ask students: "What type of variable is HbA1c? What about stage of cancer? What about cure vs no cure?" Make them classify before moving on.
+  </aside>
+</section>
+
+<!-- NORMAL DISTRIBUTION -->
+<section>
+  <h2>The Normal Distribution — when to use mean vs median</h2>
+  <div class="cols">
+    <div>
+      <h3>Normally distributed</h3>
+      <p class="smaller">Symmetric, bell-shaped</p>
+      <p class="smaller">Use: <strong>Mean ± SD</strong></p>
+      <p class="smaller">Tests: t-test, ANOVA, Pearson r</p>
+      <p class="smaller">Examples: Height, BP, Hb in large samples</p>
+    </div>
+    <div>
+      <h3>Skewed / non-normal</h3>
+      <p class="smaller">Asymmetric, outliers pull the mean</p>
+      <p class="smaller">Use: <strong>Median (IQR)</strong></p>
+      <p class="smaller">Tests: Mann-Whitney, Kruskal-Wallis, Spearman</p>
+      <p class="smaller">Examples: Hospital LOS, income, CRP, viral load</p>
+    </div>
+  </div>
+  <div class="warn-box" style="margin-top:0.5em;">
+    <strong>Practical rule:</strong> For your thesis, check normality with a histogram or Shapiro-Wilk test. If skewed, use non-parametric tests. ChooseMyStat asks you this and recommends accordingly.
+  </div>
+</section>
+
+<!-- P-VALUE AND CI -->
+<section>
+  <h2>p-value and confidence interval — what they really mean</h2>
+  <div class="cols">
+    <div>
+      <h3>p-value</h3>
+      <p class="smaller">Probability of seeing this result (or more extreme) <strong>if there were truly no difference</strong></p>
+      <p class="smaller">p &lt; 0.05 → "unlikely by chance alone"</p>
+      <p class="smaller">p = 0.03 does NOT mean "3% chance the result is wrong"</p>
+    </div>
+    <div>
+      <h3>95% Confidence Interval</h3>
+      <p class="smaller">Range within which the <strong>true population value</strong> plausibly lies</p>
+      <p class="smaller">Narrower CI = more precise estimate</p>
+      <p class="smaller">If CI for difference includes 0 → not significant</p>
+    </div>
+  </div>
+  <div class="concept-box" style="margin-top:0.5em;">
+    <strong>For your protocol:</strong> Always report <em>both</em> p-values and CIs. The CI tells the reader HOW BIG the effect is, not just whether it exists. This is what IEC reviewers want to see.
+  </div>
+</section>
+
+<!-- HYPOTHESIS TESTING LOGIC -->
+<section>
+  <h2>Hypothesis testing — the logic of sample size</h2>
+  <div class="flow-diagram" style="margin:0.5em 0;">
+    <div class="flow-box">H₀: No difference<br/>(null hypothesis)</div>
+    <div class="flow-arrow">vs</div>
+    <div class="flow-box">H₁: Difference exists<br/>(alternative hypothesis)</div>
+  </div>
+  <p class="smaller" style="margin-top:0.5em;">We collect data and ask: <em>"Is the observed difference large enough to reject H₀?"</em></p>
+  <p class="smaller">Two things can go wrong:</p>
+  <div class="cols" style="margin-top:0.3em;">
+    <div style="background:#fee2e2; padding:0.5em 0.8em; border-radius:8px; border-left:4px solid #dc2626;">
+      <strong style="color:#991b1b;">Type I Error (α)</strong><br/>
+      <span class="smaller">Reject H₀ when it's true → False positive</span><br/>
+      <span class="smaller">Convention: α = 0.05</span>
+    </div>
+    <div style="background:#dbeafe; padding:0.5em 0.8em; border-radius:8px; border-left:4px solid #2563eb;">
+      <strong style="color:#1e40af;">Type II Error (β)</strong><br/>
+      <span class="smaller">Fail to reject H₀ when it's false → False negative</span><br/>
+      <span class="smaller">Convention: β = 0.20, so <strong>Power = 0.80</strong></span>
+    </div>
+  </div>
+  <div class="concept-box" style="margin-top:0.5em;">
+    <strong>Sample size is the tool that controls both errors simultaneously.</strong> Larger n → lower chance of both errors → more reliable conclusions.
+  </div>
+</section>
+
+<!-- WHY SAMPLE SIZE -->
+<section>
+  <h2>Why calculate sample size?</h2>
+  <ul>
+    <li><strong>Power</strong> — Enough subjects to detect a real effect</li>
+    <li><strong>Validity</strong> — Conclusions that stand up to scrutiny</li>
+    <li><strong>Ethics</strong> — Not too many (wasteful), not too few (inconclusive)</li>
+    <li><strong>Resources</strong> — Budget, time, and feasibility planning</li>
+  </ul>
+  <div class="concept-box">
+    An underpowered study exposes participants to risk without producing useful knowledge. An overpowered study wastes resources. Both are ethically problematic.
+  </div>
+  <aside class="notes">
+    Emphasise that IEC/IRB reviewers will scrutinise this section. A poorly justified sample size is the #1 reason for protocol revision requests.
+  </aside>
+</section>
+
+<!-- THE FOUR INGREDIENTS -->
+<section>
+  <h2>The four ingredients of sample size</h2>
+  <table class="params-table">
+    <tr><th>Ingredient</th><th>What it means</th><th>Convention</th></tr>
+    <tr><td><strong>α (significance level)</strong></td><td>Risk of false positive</td><td>0.05 (two-sided)</td></tr>
+    <tr><td><strong>Power (1 − β)</strong></td><td>Probability of detecting a true effect</td><td>0.80 or 0.90</td></tr>
+    <tr><td><strong>Effect size</strong></td><td>The smallest difference that is clinically meaningful</td><td>From literature / pilot</td></tr>
+    <tr><td><strong>Variability</strong></td><td>SD for continuous, proportions for categorical</td><td>From literature / pilot</td></tr>
+  </table>
+  <div class="warn-box" style="margin-top:0.5em;">
+    <strong>Effect size is the hardest part.</strong> It must come from prior literature, pilot data, or clinical judgement — not from what gives you a convenient n.
+  </div>
+  <aside class="notes">
+    Spend time on effect size. Ask students: "What is the smallest improvement in HbA1c that would make you change your practice?" This is the clinically meaningful difference, not the statistically detectable one.
+  </aside>
+</section>
+
+<!-- EFFECT SIZE INTUITION -->
+<section>
+  <h2>Effect size — where does it come from?</h2>
+  <ul>
+    <li><strong>Published literature</strong> — "Previous RCT found mean difference of 0.5% in HbA1c"</li>
+    <li><strong>Pilot study</strong> — Your own preliminary data</li>
+    <li><strong>Clinical judgement</strong> — "A difference of &lt;5 mmHg in SBP isn't clinically relevant"</li>
+    <li><strong>Standardised conventions</strong> — Cohen's d: 0.2 small, 0.5 medium, 0.8 large</li>
+  </ul>
+  <div class="concept-box">
+    <strong>For proportions:</strong> You need the expected value in each group (e.g., 15% vs 5%)<br/>
+    <strong>For means:</strong> You need the expected difference AND the standard deviation
+  </div>
+</section>
+
+<!-- ONE-SIDED vs TWO-SIDED -->
+<section>
+  <h2>One-sided vs two-sided test</h2>
+  <div class="cols">
+    <div>
+      <h3>Two-sided (default)</h3>
+      <p class="smaller">"Is there <em>any</em> difference?"</p>
+      <p class="smaller">Drug could be better OR worse</p>
+      <p class="smaller"><strong>Use this unless you have a strong reason not to</strong></p>
+    </div>
+    <div>
+      <h3>One-sided</h3>
+      <p class="smaller">"Is the new treatment <em>better</em>?"</p>
+      <p class="smaller">Only interested in one direction</p>
+      <p class="smaller">Needs smaller n but harder to justify to reviewers</p>
+    </div>
+  </div>
+  <div class="warn-box" style="margin-top:0.5em;">
+    <strong>Rule of thumb for thesis:</strong> Always use two-sided unless your guide specifically advises otherwise. Ethics committees prefer it.
+  </div>
+</section>
+
+<!-- WHAT IS A SAP STATEMENT -->
+<section>
+  <h2>What is a SAP statement?</h2>
+  <p>The <strong>Statistical Analysis Plan</strong> paragraph in your protocol that justifies your sample size. It must contain:</p>
+  <ol>
+    <li>The <strong>statistical test</strong> you plan to use</li>
+    <li>The <strong>expected values</strong> (effect size, proportions, means)</li>
+    <li><strong>Alpha</strong> and <strong>power</strong></li>
+    <li>The <strong>computed n</strong></li>
+    <li><strong>Dropout adjustment</strong> (if applicable)</li>
+    <li>The <strong>reference</strong> for your expected values</li>
+  </ol>
+  <div class="concept-box">
+    ChooseMyStat generates this entire statement for you in the <strong>SAP Text</strong> tab. You add the reference and it's ready for your protocol.
+  </div>
+</section>
+
+<!-- SAP EXAMPLE -->
+<section>
+  <h2>Anatomy of a SAP statement</h2>
+  <div class="sap-text" style="font-size:0.68em;">
+    "Using an independent-samples t-test (two-sided α = 0.05, power = 0.80) to detect a mean difference of <strong>0.5%</strong> in HbA1c between the intervention and control groups, with an assumed common standard deviation of <strong>1.2%</strong> <em>(based on Kumar et al., 2023)</em>, a minimum of <strong>92 subjects per group</strong> (184 total) is required. Accounting for an anticipated <strong>15%</strong> dropout rate, the enrollment target is inflated to <strong>217 subjects</strong>."
+  </div>
+  <p class="smaller" style="margin-top:0.5em;">Notice the structure: <strong>test → parameters → n → dropout → reference</strong></p>
+  <aside class="notes">
+    Walk through each element. Point out that this is exactly what ChooseMyStat generates — they just need to add the citation for the expected values.
+  </aside>
+</section>
+
+<!-- DESCRIPTIVE STATS IN SAP -->
+<section>
+  <h2>The SAP is more than sample size — descriptive statistics</h2>
+  <p class="smaller">Every SAP must describe <strong>how you will summarise</strong> your data. Template:</p>
+  <div class="sap-text" style="font-size:0.68em;">
+    "Continuous variables will be tested for normality using the Shapiro-Wilk test. Normally distributed variables will be expressed as <strong>mean ± standard deviation</strong> and compared using the independent-samples t-test (or paired t-test). Skewed variables will be expressed as <strong>median (interquartile range)</strong> and compared using the Mann-Whitney U test (or Wilcoxon signed-rank test). Categorical variables will be expressed as <strong>frequency (percentage)</strong> and compared using the chi-square test or Fisher's exact test as appropriate. A two-sided p-value &lt; 0.05 will be considered statistically significant. All analyses will be performed using [R / SPSS / Stata] version [X]."
+  </div>
+  <div class="concept-box" style="margin-top:0.5em; font-size:0.8em;">
+    <strong>Tip:</strong> You can use ChooseMyStat's <strong>Descriptive pathway</strong> to determine the right summary measure for each variable, and the <strong>Inferential pathway</strong> to pick the correct test. Together they write most of your SAP.
+  </div>
+  <aside class="notes">
+    This is often forgotten. Students write a sample size statement but not how they'll analyse the data. Stress that the descriptive stats paragraph is equally important and should come BEFORE the sample size paragraph in the protocol.
+  </aside>
+</section>
+
+<!-- THE DECISION PROCESS -->
+<section>
+  <h2>The decision process</h2>
+  <div class="flow-diagram" style="margin: 1em 0;">
+    <div class="flow-box">Research<br/>Question</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">Study<br/>Design</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">Outcome<br/>Type</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box">Statistical<br/>Test</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#d1fae5; border-color:#059669; color:#065f46;">Sample<br/>Size</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#fef3c7; border-color:#d97706; color:#92400e;">SAP<br/>Text</div>
+  </div>
+  <div class="concept-box">
+    <strong>ChooseMyStat automates this entire chain.</strong> Answer a few questions about your study → get the recommended test → click "Calculate Sample Size" → copy the SAP text.
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION: MEET THE TOOL -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="section-divider" data-background-color="#2563eb">
+  <h1 style="color:white !important;">Part 2</h1>
+  <p style="color:#bfdbfe;">Meet ChooseMyStat — Your Statistical Test Advisor</p>
+</section>
+
+<!-- OPEN THE TOOL -->
+<section>
+  <h2>Open ChooseMyStat on your phone</h2>
+  <div class="cols">
+    <div class="qr-container">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=280x280&data=https://choose-my-stat.vercel.app" alt="QR Code for ChooseMyStat" style="width:280px;" />
+      <p class="smaller" style="text-align:center; margin-top:0.3em;"><strong>choose-my-stat.vercel.app</strong></p>
+    </div>
+    <div>
+      <h3>Five pathways</h3>
+      <ol class="smaller">
+        <li>🧪 <strong>Inferential</strong> — Which test to use?</li>
+        <li>📊 <strong>Descriptive</strong> — How to summarise?</li>
+        <li>🔬 <strong>Diagnostic accuracy</strong> — Sensitivity, specificity</li>
+        <li>🤝 <strong>Agreement</strong> — Kappa, ICC</li>
+        <li>📐 <strong>Sample Size</strong> — Calculate n</li>
+      </ol>
+      <div class="concept-box" style="margin-top:0.5em;">
+        Today we'll use pathways 1, 3, 4 (to pick tests) and then jump to 5 (sample size) via the cross-link button.
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Give students 1-2 minutes to scan and open the tool. Walk them through the home screen. Show the 5 pathway cards.
+  </aside>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <h2>How the tool works</h2>
+  <div class="flow-diagram" style="margin:0.8em 0;">
+    <div class="flow-box" style="background:#dbeafe;">Answer<br/>questions</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#dbeafe;">Get test<br/>recommendation</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#d1fae5; border-color:#059669;">Click "Calculate<br/>Sample Size"</div>
+    <div class="flow-arrow">→</div>
+    <div class="flow-box" style="background:#fef3c7; border-color:#d97706;">Copy SAP<br/>text</div>
+  </div>
+  <h3>Four output tabs per calculator</h3>
+  <table class="params-table">
+    <tr><th>Tab</th><th>What it gives you</th></tr>
+    <tr><td>📊 <strong>Result</strong></td><td>Computed n, formula breakdown, sensitivity table</td></tr>
+    <tr><td>💻 <strong>R Code</strong></td><td>Reproducible R script to cross-validate</td></tr>
+    <tr><td>⚡ <strong>G*Power</strong></td><td>Step-by-step instructions for G*Power software</td></tr>
+    <tr><td>📝 <strong>SAP Text</strong></td><td>Ready-to-copy paragraph for your protocol</td></tr>
+  </table>
+</section>
+
+<!-- DROPOUT ADJUSTMENT -->
+<section>
+  <h2>The dropout adjustment</h2>
+  <p>Every calculator has an <strong>"Expected dropout / non-response"</strong> field.</p>
+  <div class="formula">
+    n<sub>adjusted</sub> = ⌈ n<sub>analytical</sub> / (1 − dropout rate) ⌉
+  </div>
+  <p class="smaller">Example: Analytical n = 92 per group, expected 15% dropout:</p>
+  <div class="formula">
+    n<sub>adjusted</sub> = ⌈ 92 / (1 − 0.15) ⌉ = ⌈ 108.2 ⌉ = <strong>109 per group</strong>
+  </div>
+  <div class="concept-box">
+    The tool shows both values and includes the adjustment in the SAP text and R code automatically.
+  </div>
+  <aside class="notes">
+    Stress that the dropout % should be based on similar studies or departmental experience, not arbitrary. Common values: 10-20% for clinical trials, 20-30% for follow-up studies.
+  </aside>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION: EXERCISES -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="section-divider" data-background-color="#1e3a5f">
+  <h1 style="color:white !important;">Part 3</h1>
+  <p style="color:#93c5fd;">Hands-on Exercises — Use ChooseMyStat on Your Phone</p>
+  <p style="color:#93c5fd; font-size:0.6em;">5 clinical scenarios · ~10 minutes each · discuss SAP text after each</p>
+</section>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- EXERCISE 1: Single Proportion (Prevalence) -->
+<!-- ─────────────────────────────────────────────────────── -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 1 · Cross-sectional Study</div>
+    <h2>Prevalence of Anaemia in Pregnant Women</h2>
+  </div>
+  <div class="scenario-box">
+    <strong>Scenario:</strong> You are planning a cross-sectional study to estimate the prevalence of anaemia (Hb &lt; 11 g/dL) among pregnant women attending antenatal clinics at a district hospital. According to <strong>NFHS-5 (2019–21)</strong>, the prevalence of anaemia among pregnant women in India is <strong>52.2%</strong> (up from 50.4% in NFHS-4). You want the estimate to be within <strong>±5%</strong> absolute precision at <strong>95% confidence</strong>.
+  </div>
+  <div class="pathway-hint">
+    💡 <strong>Pathway:</strong> Sample Size → Decision tree → "Estimate a parameter" → "A proportion" → Single Proportion Estimation
+  </div>
+  <div class="try-it">📱 Open ChooseMyStat and try it now!</div>
+  <aside class="notes">
+    This is a warm-up exercise. Walk around and help students navigate to the Sample Size pathway. They should reach the "Estimate a proportion" calculator. Expected answer: n ≈ 384 (p=0.52). With 10% non-response → ~427.
+  </aside>
+</section>
+
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 1 · Solution</div>
+    <h2>Prevalence of Anaemia — Solution</h2>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Parameters</h3>
+      <table class="params-table">
+        <tr><td>Expected proportion (p)</td><td><strong>0.52</strong></td></tr>
+        <tr><td>Absolute precision (d)</td><td><strong>0.05</strong></td></tr>
+        <tr><td>Confidence level</td><td><strong>95%</strong></td></tr>
+        <tr><td>Dropout / non-response</td><td><strong>10%</strong></td></tr>
+      </table>
+      <div class="result-box">
+        <div>Analytical n</div>
+        <div class="n-value">384</div>
+        <div class="smaller">Recruitment target: <strong>427</strong></div>
+      </div>
+    </div>
+    <div>
+      <h3>SAP Text (generated)</h3>
+      <div class="sap-text">
+        "To estimate the prevalence of anaemia among pregnant women with an absolute precision of ±5 percentage points and 95% confidence, assuming an expected prevalence of 52% <strong>(IIPS &amp; ICF. NFHS-5, 2019–21. Mumbai: IIPS, 2021)</strong>, a minimum of 384 subjects is required. Accounting for an anticipated 10% non-response rate, the enrollment target is 427 subjects."
+      </div>
+      <div class="concept-box" style="font-size:0.75em;">
+        <strong>Discussion:</strong> Note how the NFHS-5 citation is embedded. What if prevalence is unknown — what value of p maximises n? (Answer: p = 0.50 → n = 385, nearly the same!)
+      </div>
+    </div>
+  </div>
+  <aside class="notes">
+    Key teaching point: When prevalence is unknown, use p = 0.50 — this gives maximum sample size (most conservative). Also discuss: NFHS-5 or a local study as the source for the expected prevalence.
+  </aside>
+</section>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- EXERCISE 2: Two Independent Means (RCT) -->
+<!-- ─────────────────────────────────────────────────────── -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 2 · Randomised Controlled Trial</div>
+    <h2>Yoga vs Standard Care for Fasting Blood Glucose</h2>
+  </div>
+  <div class="scenario-box">
+    <strong>Scenario:</strong> You are designing a parallel-arm RCT to compare the effect of <strong>12-week structured yoga</strong> vs <strong>standard lifestyle advice</strong> on fasting blood glucose (FBG) in newly diagnosed type 2 diabetes patients. A meta-analysis by <strong>Cui J et al. (2017, <em>J Diabetes Investigation</em>, 14 RCTs)</strong> found a pooled weighted mean difference (WMD) of <strong>−23.72 mg/dL</strong> (95% CI: −37.78 to −9.65). Using a clinically conservative estimate of <strong>mean difference = 25 mg/dL</strong> with <strong>pooled SD = 35 mg/dL</strong>, you want <strong>80% power</strong> at <strong>α = 0.05 (two-sided)</strong>.
+  </div>
+  <div class="pathway-hint">
+    💡 <strong>Pathway:</strong> Inferential → "Compare groups" → 2 groups → Continuous → Independent → <em>Independent t-test</em> → Click <strong>"Calculate Sample Size"</strong> button
+  </div>
+  <div class="try-it">📱 Try the Inferential pathway first, then click the cross-link!</div>
+  <aside class="notes">
+    This exercise demonstrates the CROSS-LINK feature. Students go through the inferential pathway, get "Independent t-test" recommendation, then click "Calculate Sample Size for Independent t-test →" button at the bottom. This jumps them directly to the two independent means calculator.
+  </aside>
+</section>
+
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 2 · Solution</div>
+    <h2>Yoga vs Standard Care — Solution</h2>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Parameters</h3>
+      <table class="params-table">
+        <tr><td>Mean difference (δ)</td><td><strong>25 mg/dL</strong></td></tr>
+        <tr><td>Common SD (σ)</td><td><strong>35 mg/dL</strong></td></tr>
+        <tr><td>α (two-sided)</td><td><strong>0.05</strong></td></tr>
+        <tr><td>Power</td><td><strong>0.80</strong></td></tr>
+        <tr><td>Allocation ratio</td><td><strong>1:1</strong></td></tr>
+        <tr><td>Dropout</td><td><strong>15%</strong></td></tr>
+      </table>
+      <div class="result-box">
+        <div>Analytical: 31 per group (62 total)</div>
+        <div class="n-value">37 per group</div>
+        <div class="smaller">74 total (with 15% dropout)</div>
+      </div>
+    </div>
+    <div>
+      <h3>Read the SAP text aloud</h3>
+      <div class="sap-text">
+        "Using an independent-samples t-test (two-sided α = 0.05, power = 0.80) to detect a mean difference of 25 mg/dL in FBG between groups, with common SD = 35 mg/dL <strong>(Cui J et al., 2017, <em>J Diabetes Investig</em>; pooled WMD = −23.72 mg/dL from 14 RCTs)</strong>, 31 subjects per group (62 total) are required. With 15% anticipated dropout, enrollment target = 74."
+      </div>
+      <div class="concept-box" style="font-size:0.75em;">
+        <strong>Discussion:</strong> What happens to n if we reduce the detectable difference to 10 mg/dL? Check the sensitivity table!
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- PARAMETER SENSITIVITY CHALLENGE -->
+<!-- ─────────────────────────────────────────────────────── -->
+<section>
+  <div class="exercise-header" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);">
+    <div class="exercise-num">🔬 Challenge · Parameter Sensitivity</div>
+    <h2>How Do Parameters Affect Sample Size?</h2>
+  </div>
+  <p style="font-size:0.82em;">Using the <strong>Yoga vs FBG exercise</strong> (Exercise 2), change ONE parameter at a time and note the new n. Use the <strong>Sensitivity Table</strong> in ChooseMyStat!</p>
+  <table class="params-table" style="font-size:0.72em;">
+    <tr style="background:#e0e7ff;"><th>Change</th><th>From → To</th><th>n per group</th><th>Direction</th></tr>
+    <tr><td>Base case</td><td>δ=25, σ=35, α=0.05, power=80%</td><td><strong>31</strong></td><td>—</td></tr>
+    <tr><td>↓ Smaller effect size</td><td>δ = 25 → <strong>15</strong></td><td><strong>86</strong></td><td style="color:#dc2626;">↑↑↑ n triples!</td></tr>
+    <tr><td>↑ Larger SD</td><td>σ = 35 → <strong>50</strong></td><td><strong>63</strong></td><td style="color:#dc2626;">↑↑ n doubles</td></tr>
+    <tr><td>↑ More power</td><td>80% → <strong>90%</strong></td><td><strong>42</strong></td><td style="color:#f59e0b;">↑ modest rise</td></tr>
+    <tr><td>↓ Larger effect size</td><td>δ = 25 → <strong>30</strong></td><td><strong>22</strong></td><td style="color:#059669;">↓ n drops</td></tr>
+  </table>
+  <div class="warn-box" style="font-size:0.78em;">
+    <strong>Take-home:</strong> Effect size (δ) has the <em>biggest</em> impact on n — it appears as δ² in the denominator. Choosing an unrealistically large effect to get a small n is the #1 sin in sample size calculation!
+  </div>
+  <aside class="notes">
+    Give students 3-4 minutes to play with the sensitivity table. Walk around and discuss. Key insight: n is inversely proportional to δ² — halving the effect size quadruples n. This is why citing a real study for effect size is so important.
+  </aside>
+</section>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- EXERCISE 3: Case-Control (was Exercise 4) -->
+<!-- ─────────────────────────────────────────────────────── -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 3 · Case-Control Study</div>
+    <h2>Indoor Air Pollution and COPD</h2>
+  </div>
+  <div class="scenario-box">
+    <strong>Scenario:</strong> You are planning a hospital-based case-control study to investigate the association between <strong>biomass fuel use</strong> (exposure) and <strong>COPD</strong> (outcome). A meta-analysis by <strong>Sana A et al. (2019, <em>Int J Chron Obstruct Pulmon Dis</em>, 35 studies, 73,122 participants)</strong> found a pooled <strong>OR = 2.65</strong> (95% CI: 2.13–3.31) for COPD with biomass exposure. The prevalence of biomass fuel use among controls in your region is approximately <strong>40%</strong> (Thakur et al., 2019, North India). You want 1:1 case-to-control ratio, <strong>80% power</strong>, <strong>α = 0.05</strong>.
+  </div>
+  <div class="pathway-hint">
+    💡 <strong>Pathway:</strong> Sample Size → Decision tree → "Test a hypothesis" → "Case-control" → Case-Control (OR)
+  </div>
+  <div class="try-it">📱 Use the Sample Size pathway directly this time!</div>
+  <aside class="notes">
+    This time students go directly to Sample Size pathway (not through inferential). Show them both routes are possible.
+  </aside>
+</section>
+
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 3 · Solution</div>
+    <h2>Indoor Air Pollution and COPD — Solution</h2>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Parameters</h3>
+      <table class="params-table">
+        <tr><td>Odds Ratio (OR)</td><td><strong>2.65</strong></td></tr>
+        <tr><td>Exposure in controls (p₀)</td><td><strong>0.40</strong></td></tr>
+        <tr><td>Case:Control ratio</td><td><strong>1:1</strong></td></tr>
+        <tr><td>α (two-sided)</td><td><strong>0.05</strong></td></tr>
+        <tr><td>Power</td><td><strong>0.80</strong></td></tr>
+        <tr><td>Dropout</td><td><strong>0%</strong></td></tr>
+      </table>
+      <div class="result-box">
+        <div class="n-value">71 per group</div>
+        <div class="smaller">71 cases + 71 controls = 142 total</div>
+      </div>
+    </div>
+    <div>
+      <h3>SAP Text</h3>
+      <div class="sap-text">
+        "Using a two-sided test for the odds ratio in a case-control design (α = 0.05, power = 0.80), to detect an OR of 2.65 for COPD with biomass fuel exposure <strong>(Sana A et al., 2019, <em>Int J COPD</em>; pooled OR = 2.65 from 35 studies)</strong>, assuming 40% exposure prevalence among controls and 1:1 matching, 71 cases and 71 controls (142 total) are required."
+      </div>
+      <div class="concept-box" style="font-size:0.75em;">
+        <strong>Discussion:</strong> What if you increase the ratio to 1:2 (more controls)? How does it change n? When is unequal allocation useful?
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- EXERCISE 4: Diagnostic Accuracy (was Exercise 6) -->
+<!-- ─────────────────────────────────────────────────────── -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 4 · Diagnostic Accuracy Study</div>
+    <h2>POCUS vs CT for Acute Appendicitis</h2>
+  </div>
+  <div class="scenario-box">
+    <strong>Scenario:</strong> You are evaluating <strong>point-of-care ultrasound (POCUS)</strong> performed by emergency physicians for diagnosing acute appendicitis, with <strong>CT abdomen</strong> as the gold standard. A meta-analysis by <strong>Fields JM et al. (2021, <em>Acad Emerg Med</em>)</strong> reported pooled sensitivity of 91% (95% CI: 83–96%) overall, with <strong>adult-specific sensitivity of 84.3%</strong> (76.6–90.3%). Using the adult-specific estimate, you expect <strong>sensitivity ≈ 85%</strong>. You want to estimate this with a precision of <strong>±7 percentage points</strong>. The expected <strong>prevalence of appendicitis</strong> in your ED population presenting with RIF pain is <strong>30%</strong>.
+  </div>
+  <div class="pathway-hint">
+    💡 <strong>Pathway:</strong> Diagnostic Accuracy → … → Sensitivity/Specificity → Click <strong>"Calculate Sample Size"</strong> button<br/>
+    <em>OR</em> directly: Sample Size → "Diagnostic accuracy"
+  </div>
+  <div class="try-it">📱 Try the Diagnostic Accuracy pathway to see the cross-link in action!</div>
+</section>
+
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 4 · Solution</div>
+    <h2>POCUS for Appendicitis — Solution</h2>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Parameters</h3>
+      <table class="params-table">
+        <tr><td>Expected sensitivity</td><td><strong>0.85</strong></td></tr>
+        <tr><td>Precision (half-width CI)</td><td><strong>0.07</strong></td></tr>
+        <tr><td>Prevalence</td><td><strong>0.30</strong></td></tr>
+        <tr><td>Confidence level</td><td><strong>95%</strong></td></tr>
+        <tr><td>Dropout</td><td><strong>5%</strong></td></tr>
+      </table>
+      <div class="result-box">
+        <div>Diseased subjects needed: ~100</div>
+        <div class="n-value">Total ≈ 333</div>
+        <div class="smaller">~351 with 5% dropout</div>
+      </div>
+    </div>
+    <div>
+      <h3>Key teaching point</h3>
+      <div class="concept-box" style="font-size:0.78em;">
+        <strong>Why does prevalence matter?</strong> The formula calculates how many <em>diseased</em> subjects you need (to estimate sensitivity). If prevalence = 30%, you need to screen 100/0.30 ≈ 333 total patients to find enough diseased cases.
+      </div>
+      <div class="sap-text">
+        "To estimate the sensitivity of POCUS for appendicitis with ±7% precision and 95% confidence, assuming sensitivity = 85% (Fields et al., 2021) and prevalence = 30%, ~333 consecutive patients are needed."
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- EXERCISE 5: Agreement (Kappa) (was Exercise 7) -->
+<!-- ─────────────────────────────────────────────────────── -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 5 · Agreement Study</div>
+    <h2>Inter-observer Agreement for DR Grading</h2>
+  </div>
+  <div class="scenario-box">
+    <strong>Scenario:</strong> You are a DM Ophthalmology resident conducting a study on <strong>inter-observer agreement</strong> between two ophthalmologists for grading severity of <strong>diabetic retinopathy (DR)</strong> on fundus photographs. A study by <strong>Ruamviboonsuk P et al. (2006, <em>Am J Ophthalmol</em>)</strong> reported inter-observer kappa of <strong>0.85</strong> (p &lt; 0.001) for DR grading on digital images. Using a more conservative estimate, you expect a <strong>kappa of 0.70</strong> (substantial agreement). You want to test this against a null hypothesis of <strong>kappa = 0.40</strong> (moderate agreement), with <strong>80% power</strong> and <strong>α = 0.05</strong>.
+  </div>
+  <div class="pathway-hint">
+    💡 <strong>Pathway:</strong> Agreement → "Inter-rater" → "Categorical" → <em>Cohen's Kappa</em> → Click <strong>"Calculate Sample Size"</strong><br/>
+    <em>OR</em> directly: Sample Size → "Agreement / Reliability" → Kappa
+  </div>
+  <div class="try-it">📱 Try the Agreement pathway → cross-link to sample size!</div>
+</section>
+
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 5 · Solution</div>
+    <h2>DR Grading Agreement — Solution</h2>
+  </div>
+  <div class="cols">
+    <div>
+      <h3>Parameters</h3>
+      <table class="params-table">
+        <tr><td>Expected kappa (κ₁)</td><td><strong>0.70</strong></td></tr>
+        <tr><td>Null kappa (κ₀)</td><td><strong>0.40</strong></td></tr>
+        <tr><td>α (two-sided)</td><td><strong>0.05</strong></td></tr>
+        <tr><td>Power</td><td><strong>0.80</strong></td></tr>
+        <tr><td>Number of raters</td><td><strong>2</strong></td></tr>
+        <tr><td>Dropout</td><td><strong>0%</strong></td></tr>
+      </table>
+      <div class="result-box">
+        <div class="n-value">n ≈ 41</div>
+        <div class="smaller">41 fundus images to be graded by both observers</div>
+      </div>
+    </div>
+    <div>
+      <h3>SAP Text</h3>
+      <div class="sap-text">
+        "To detect a kappa of 0.70 against a null of 0.40 for inter-observer agreement in DR grading, with α = 0.05 and 80% power, a minimum of 41 fundus images are required, each graded independently by both ophthalmologists."
+      </div>
+      <div class="concept-box" style="font-size:0.75em;">
+        <strong>Discussion:</strong> For agreement studies, n is typically small. But what about ICC for continuous measurements (e.g., macular thickness on OCT)?
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION: WRAP-UP -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="section-divider" data-background-color="#7c3aed">
+  <h1 style="color:white !important;">Part 4</h1>
+  <p style="color:#ddd6fe;">Common Mistakes, Tips &amp; Resources</p>
+</section>
+
+<!-- COMMON MISTAKES -->
+<section>
+  <h2>Common mistakes in sample size calculation</h2>
+  <ol>
+    <li><strong>Choosing effect size to get a convenient n</strong> — This is backwards. Effect size comes from literature/clinical judgement.</li>
+    <li><strong>Not citing the source</strong> of expected values — Always cite where p, mean, SD came from.</li>
+    <li><strong>Forgetting dropout adjustment</strong> — Analytical n ≠ enrollment target.</li>
+    <li><strong>Wrong test choice</strong> — Paired vs independent, proportions vs means — the decision tree helps here.</li>
+    <li><strong>One-sided test without justification</strong> — Reviewers will question this.</li>
+    <li><strong>Ignoring feasibility</strong> — If n = 2000 and your hospital sees 50 cases/year, you need a different approach.</li>
+  </ol>
+</section>
+
+<!-- TIPS FOR WRITING SAP -->
+<section>
+  <h2>Tips for writing a good SAP</h2>
+  <ul>
+    <li><strong>Name the test</strong> — "Independent t-test" not "appropriate test"</li>
+    <li><strong>State all parameters</strong> — α, power, effect size, variability</li>
+    <li><strong>Cite your source</strong> — "(Based on Kumar et al., 2022)"</li>
+    <li><strong>Show both n's</strong> — Analytical n AND enrollment target after dropout</li>
+    <li><strong>Be specific</strong> — "92 per group" not "approximately 100"</li>
+  </ul>
+  <div class="concept-box">
+    <strong>Pro tip:</strong> Copy the SAP text from ChooseMyStat, add your reference, and you're done. The tool generates all the right structure.
+  </div>
+</section>
+
+<!-- WHEN SAMPLE SIZE ISN'T NEEDED -->
+<section>
+  <h2>When sample size calculation is NOT needed</h2>
+  <ul>
+    <li><strong>Descriptive studies</strong> — profiling patients, describing a phenomenon</li>
+    <li><strong>Pilot studies</strong> — feasibility testing (use rule of thumb: 30-50)</li>
+    <li><strong>Qualitative research</strong> — saturation-based sampling</li>
+    <li><strong>Case reports/series</strong> — convenience sampling</li>
+    <li><strong>Census/total enumeration</strong> — you're including everyone</li>
+  </ul>
+  <div class="warn-box">
+    For these, state in your protocol: "Sample size is based on [feasibility/saturation/total enumeration] and formal sample size calculation is not applicable."
+  </div>
+</section>
+
+<!-- RESOURCES -->
+<section>
+  <h2>Resources</h2>
+  <div class="cols">
+    <div>
+      <h3>ChooseMyStat</h3>
+      <div class="qr-container">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://choose-my-stat.vercel.app" alt="ChooseMyStat QR" style="width:200px;" />
+        <p class="tiny">choose-my-stat.vercel.app</p>
+      </div>
+    </div>
+    <div>
+      <h3>This presentation</h3>
+      <div class="qr-container">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://drpakhare.github.io/sap-sample-size-workshop/" alt="Slides QR" style="width:200px;" />
+        <p class="tiny">drpakhare.github.io/sap-sample-size-workshop</p>
+      </div>
+    </div>
+  </div>
+  <div class="concept-box" style="margin-top:0.5em; text-align:center;">
+    <strong>Other tools:</strong> G*Power (free desktop) · R {pwr} package · OpenEpi · nMaster (CMC Vellore)
+  </div>
+</section>
+
+<!-- SUMMARY -->
+<section>
+  <h2>Today's takeaways</h2>
+  <ol>
+    <li>Sample size calculation requires <strong>four ingredients</strong>: α, power, effect size, variability</li>
+    <li><strong>Effect size</strong> is the most important — and must be justified from literature</li>
+    <li>The <strong>decision tree</strong> in ChooseMyStat walks you from study design → test → sample size</li>
+    <li>Always apply a <strong>dropout/non-response adjustment</strong></li>
+    <li>The <strong>SAP text</strong> generated by the tool is ready for your protocol — just add your reference</li>
+  </ol>
+</section>
+
+<!-- THANK YOU -->
+<section class="title-slide" data-background-gradient="linear-gradient(135deg, #f0fdf4 0%, #ecfeff 50%, #eff6ff 100%)">
+  <h1 style="font-size:2.5em !important; border:none !important; color: var(--accent) !important;">Thank You</h1>
+  <p style="font-size:0.9em; color:#666;">Questions? Open ChooseMyStat and try your own thesis scenario!</p>
+  <div style="margin-top:1.5em;">
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=https://choose-my-stat.vercel.app" alt="QR" style="width:200px; border:3px solid #e5e7eb; border-radius:8px;" />
+    <p class="smaller"><strong>choose-my-stat.vercel.app</strong></p>
+  </div>
+</section>
+
+</div><!-- .slides -->
+</div><!-- .reveal -->
+
+<!-- Footer -->
+<div class="footer-bar">
+  <img src="images/logo.png" alt="Logo" />
+  <span>SAP & Sample Size Workshop · AIIMS Bhopal · October 2026</span>
+</div>
+
+<!-- Reveal.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/reveal.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/notes/notes.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/reveal.js/5.1.0/plugin/highlight/highlight.min.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    width: 1280,
+    height: 720,
+    margin: 0.08,
+    center: false,
+    transition: 'slide',
+    plugins: [RevealNotes, RevealHighlight]
+  });
+</script>
+</body>
+</html>
