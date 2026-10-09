@@ -545,210 +545,273 @@
 </section>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<!-- EXERCISE 2: Two Independent Means (RCT) -->
+<!-- EXERCISE 2: Two Independent Means (RCT) — TXA in LSCS -->
 <!-- ─────────────────────────────────────────────────────── -->
 <section>
   <div class="exercise-header">
     <div class="exercise-num">Exercise 2 · Randomised Controlled Trial</div>
-    <h2>Yoga vs Standard Care for Fasting Blood Glucose</h2>
+    <h2>Tranexamic Acid vs Placebo in Caesarean Section</h2>
   </div>
   <div class="scenario-box">
-    <strong>Scenario:</strong> You are designing a parallel-arm RCT to compare the effect of <strong>12-week structured yoga</strong> vs <strong>standard lifestyle advice</strong> on fasting blood glucose (FBG) in newly diagnosed type 2 diabetes patients. A meta-analysis by <strong>Cui J et al. (2017, <em>J Diabetes Investigation</em>, 14 RCTs)</strong> found a pooled weighted mean difference (WMD) of <strong>−23.72 mg/dL</strong> (95% CI: −37.78 to −9.65). Using a clinically conservative estimate of <strong>mean difference = 25 mg/dL</strong> with <strong>pooled SD = 35 mg/dL</strong>, you want <strong>80% power</strong> at <strong>α = 0.05 (two-sided)</strong>.
+    <strong>Scenario:</strong> You are designing a double-blind RCT to compare <strong>intravenous tranexamic acid (TXA)</strong> vs <strong>placebo</strong> on intraoperative blood loss (mL) during <strong>lower-segment caesarean section (LSCS)</strong>. An Indian trial by <strong>Khanam S et al. (2023, <em>J Family Med Prim Care</em>)</strong> reported a mean difference of ~100 mL, but an <strong>AJOG meta-analysis</strong> of multiple RCTs suggests the true effect is smaller. Using a conservative, <strong>clinically meaningful difference of 50 mL</strong> with <strong>SD = 120 mL</strong>, you want <strong>80% power</strong> at <strong>α = 0.05 (two-sided)</strong>.
   </div>
   <div class="pathway-hint">
     💡 <strong>Pathway:</strong> Inferential → "Compare groups" → 2 groups → Continuous → Independent → <em>Independent t-test</em> → Click <strong>"Calculate Sample Size"</strong> button
   </div>
   <div class="try-it">📱 Try the Inferential pathway first, then click the cross-link!</div>
   <aside class="notes">
-    This exercise demonstrates the CROSS-LINK feature. Students go through the inferential pathway, get "Independent t-test" recommendation, then click "Calculate Sample Size for Independent t-test →" button at the bottom. This jumps them directly to the two independent means calculator.
+    This exercise demonstrates the CROSS-LINK feature. Students go through the inferential pathway, get "Independent t-test" recommendation, then click "Calculate Sample Size for Independent t-test →" button. Key point: we deliberately use a conservative 50 mL difference (not the 100 mL from one trial) because that is what a meta-analysis supports. This sets up the sensitivity challenge next.
   </aside>
 </section>
 
 <section>
   <div class="exercise-header">
     <div class="exercise-num">Exercise 2 · Solution</div>
-    <h2>Yoga vs Standard Care — Solution</h2>
+    <h2>TXA in Caesarean — Solution</h2>
   </div>
   <div class="cols">
     <div>
       <h3>Parameters</h3>
       <table class="params-table">
-        <tr><td>Mean difference (δ)</td><td><strong>25 mg/dL</strong></td></tr>
-        <tr><td>Common SD (σ)</td><td><strong>35 mg/dL</strong></td></tr>
+        <tr><td>Mean difference (δ)</td><td><strong>50 mL</strong></td></tr>
+        <tr><td>Common SD (σ)</td><td><strong>120 mL</strong></td></tr>
         <tr><td>α (two-sided)</td><td><strong>0.05</strong></td></tr>
         <tr><td>Power</td><td><strong>0.80</strong></td></tr>
         <tr><td>Allocation ratio</td><td><strong>1:1</strong></td></tr>
-        <tr><td>Dropout</td><td><strong>15%</strong></td></tr>
+        <tr><td>Dropout</td><td><strong>10%</strong></td></tr>
       </table>
       <div class="result-box">
-        <div>Analytical: 31 per group (62 total)</div>
-        <div class="n-value">37 per group</div>
-        <div class="smaller">74 total (with 15% dropout)</div>
+        <div>Analytical: 91 per group (182 total)</div>
+        <div class="n-value">102 per group</div>
+        <div class="smaller">204 total (with 10% dropout)</div>
       </div>
     </div>
     <div>
       <h3>Read the SAP text aloud</h3>
       <div class="sap-text">
-        "Using an independent-samples t-test (two-sided α = 0.05, power = 0.80) to detect a mean difference of 25 mg/dL in FBG between groups, with common SD = 35 mg/dL <strong>(Cui J et al., 2017, <em>J Diabetes Investig</em>; pooled WMD = −23.72 mg/dL from 14 RCTs)</strong>, 31 subjects per group (62 total) are required. With 15% anticipated dropout, enrollment target = 74."
+        "Using an independent-samples t-test (two-sided α = 0.05, power = 0.80) to detect a mean difference of 50 mL in intraoperative blood loss between TXA and placebo groups, with common SD = 120 mL <strong>(Khanam S et al., 2023, <em>JFMPC</em>; AJOG meta-analysis)</strong>, 91 subjects per group (182 total) are required. Accounting for 10% dropout, the enrollment target is 204."
       </div>
       <div class="concept-box" style="font-size:0.75em;">
-        <strong>Discussion:</strong> What happens to n if we reduce the detectable difference to 10 mg/dL? Check the sensitivity table!
+        <strong>Discussion:</strong> Why did we use 50 mL and not the 100 mL from a single trial? What happens if you cherry-pick the larger effect? Check next slide!
       </div>
     </div>
   </div>
 </section>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<!-- PARAMETER SENSITIVITY CHALLENGE -->
+<!-- PARAMETER SENSITIVITY CHALLENGE — The Convenient-Effect Trap -->
 <!-- ─────────────────────────────────────────────────────── -->
 <section>
   <div class="exercise-header" style="background: linear-gradient(135deg, #7c3aed 0%, #a855f7 100%);">
-    <div class="exercise-num">🔬 Challenge · Parameter Sensitivity</div>
-    <h2>How Do Parameters Affect Sample Size?</h2>
+    <div class="exercise-num">🔬 Challenge · The Convenient-Effect Trap</div>
+    <h2>How Changing Parameters Inflates or Deflates n</h2>
   </div>
-  <p style="font-size:0.82em;">Using the <strong>Yoga vs FBG exercise</strong> (Exercise 2), change ONE parameter at a time and note the new n. Use the <strong>Sensitivity Table</strong> in ChooseMyStat!</p>
+  <p style="font-size:0.82em;">Using the <strong>TXA exercise</strong> (Exercise 2), change ONE parameter at a time. Use the <strong>Sensitivity Table</strong> in ChooseMyStat!</p>
   <table class="params-table" style="font-size:0.72em;">
     <tr style="background:#e0e7ff;"><th>Change</th><th>From → To</th><th>n per group</th><th>Direction</th></tr>
-    <tr><td>Base case</td><td>δ=25, σ=35, α=0.05, power=80%</td><td><strong>31</strong></td><td>—</td></tr>
-    <tr><td>↓ Smaller effect size</td><td>δ = 25 → <strong>15</strong></td><td><strong>86</strong></td><td style="color:#dc2626;">↑↑↑ n triples!</td></tr>
-    <tr><td>↑ Larger SD</td><td>σ = 35 → <strong>50</strong></td><td><strong>63</strong></td><td style="color:#dc2626;">↑↑ n doubles</td></tr>
-    <tr><td>↑ More power</td><td>80% → <strong>90%</strong></td><td><strong>42</strong></td><td style="color:#f59e0b;">↑ modest rise</td></tr>
-    <tr><td>↓ Larger effect size</td><td>δ = 25 → <strong>30</strong></td><td><strong>22</strong></td><td style="color:#059669;">↓ n drops</td></tr>
+    <tr><td>Base case (conservative)</td><td>δ=50 mL, σ=120, α=0.05, power=80%</td><td><strong>91</strong></td><td>—</td></tr>
+    <tr style="background:#fef2f2;"><td>🚨 Cherry-pick large effect</td><td>δ = 50 → <strong>100 mL</strong></td><td><strong>23</strong></td><td style="color:#dc2626;">↓↓↓ n drops to ¼ !</td></tr>
+    <tr><td>↑ More variability</td><td>σ = 120 → <strong>150</strong></td><td><strong>142</strong></td><td style="color:#dc2626;">↑↑ n rises 56%</td></tr>
+    <tr><td>↑ Higher power</td><td>80% → <strong>90%</strong></td><td><strong>122</strong></td><td style="color:#f59e0b;">↑ modest rise</td></tr>
+    <tr><td>↓ Smaller real effect</td><td>δ = 50 → <strong>30 mL</strong></td><td><strong>253</strong></td><td style="color:#dc2626;">↑↑↑ nearly triples!</td></tr>
   </table>
   <div class="warn-box" style="font-size:0.78em;">
-    <strong>Take-home:</strong> Effect size (δ) has the <em>biggest</em> impact on n — it appears as δ² in the denominator. Choosing an unrealistically large effect to get a small n is the #1 sin in sample size calculation!
+    <strong>The trap:</strong> One Indian trial reports Δ = 100 mL → n = 23/group. Cherry-picking that number gives you a "convenient" n for a thesis but an <strong>underpowered study</strong>. The meta-analysis-supported Δ = 50 mL gives a realistic n = 91/group. <em>Effect size must come from the best available evidence, not from what fits your timeline.</em>
   </div>
   <aside class="notes">
-    Give students 3-4 minutes to play with the sensitivity table. Walk around and discuss. Key insight: n is inversely proportional to δ² — halving the effect size quadruples n. This is why citing a real study for effect size is so important.
+    Give students 3-4 minutes to play with the sensitivity table. Walk around and discuss. Key insight: n ∝ 1/δ² — halving the effect size quadruples n. This is the #1 sin in sample size calculation. The TXA example makes it visceral: 23 vs 91 per group depending on which study you cherry-pick.
   </aside>
 </section>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<!-- EXERCISE 3: Case-Control (was Exercise 4) -->
+<!-- EXERCISE 3: Case-Control — Tobacco & Breast Cancer (Sensitivity Walkthrough) -->
 <!-- ─────────────────────────────────────────────────────── -->
 <section>
   <div class="exercise-header">
     <div class="exercise-num">Exercise 3 · Case-Control Study</div>
-    <h2>Indoor Air Pollution and COPD</h2>
+    <h2>Tobacco Use and Breast Cancer in Indian Women</h2>
   </div>
   <div class="scenario-box">
-    <strong>Scenario:</strong> You are planning a hospital-based case-control study to investigate the association between <strong>biomass fuel use</strong> (exposure) and <strong>COPD</strong> (outcome). A meta-analysis by <strong>Sana A et al. (2019, <em>Int J Chron Obstruct Pulmon Dis</em>, 35 studies, 73,122 participants)</strong> found a pooled <strong>OR = 2.65</strong> (95% CI: 2.13–3.31) for COPD with biomass exposure. The prevalence of biomass fuel use among controls in your region is approximately <strong>40%</strong> (Thakur et al., 2019, North India). You want 1:1 case-to-control ratio, <strong>80% power</strong>, <strong>α = 0.05</strong>.
+    <strong>Scenario:</strong> You are planning a hospital-based case-control study to investigate the association between <strong>tobacco use</strong> (exposure) and <strong>breast cancer</strong> (outcome) in Indian women. An Indian meta-analysis <strong>(J Mid-life Health, 2025)</strong> reports a range of ORs across studies — from <strong>1.15 to 2.0</strong> depending on exposure definition and population. The prevalence of tobacco use among <strong>controls in your region is approximately 20%</strong>. You want 1:1 case-to-control ratio, <strong>80% power</strong>, <strong>α = 0.05</strong>.
+  </div>
+  <div class="warn-box" style="font-size:0.78em;">
+    <strong>Note:</strong> In India, <em>smokeless tobacco</em> (gutka, khaini, masheri) dominates over smoking. The control exposure prevalence (20%) should ideally come from local data for your region, not national averages.
   </div>
   <div class="pathway-hint">
     💡 <strong>Pathway:</strong> Sample Size → Decision tree → "Test a hypothesis" → "Case-control" → Case-Control (OR)
   </div>
-  <div class="try-it">📱 Use the Sample Size pathway directly this time!</div>
+  <div class="try-it">📱 Open ChooseMyStat → Case-Control calculator. Start with OR = 2.0</div>
   <aside class="notes">
-    This time students go directly to Sample Size pathway (not through inferential). Show them both routes are possible.
+    This is a multi-slide sensitivity exercise. Students start by computing n for OR=2.0 (the largest reported effect). Then we progressively lower the OR toward the null to show how n explodes. Finally we explore unequal allocation. Give 2-3 minutes for the first calculation.
+  </aside>
+</section>
+
+<!-- Exercise 3 · Step 1: OR = 2.0 -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 3 · Step 1</div>
+    <h2>Start with OR = 2.0 (largest reported effect)</h2>
+  </div>
+  <div class="cols">
+    <div>
+      <table class="params-table">
+        <tr><td>Odds Ratio (OR)</td><td><strong>2.0</strong></td></tr>
+        <tr><td>Exposure in controls (p₀)</td><td><strong>0.20</strong></td></tr>
+        <tr><td>Case:Control ratio</td><td><strong>1:1</strong></td></tr>
+        <tr><td>α (two-sided)</td><td><strong>0.05</strong></td></tr>
+        <tr><td>Power</td><td><strong>0.80</strong></td></tr>
+      </table>
+      <div class="result-box">
+        <div class="n-value">176 per group</div>
+        <div class="smaller">352 total — feasible for a thesis!</div>
+      </div>
+    </div>
+    <div>
+      <div class="concept-box">
+        <strong>Looks manageable.</strong> But OR = 2.0 is the <em>upper end</em> of what studies report. What if the true association is weaker?
+      </div>
+      <p style="font-size:0.82em;">Now change the OR to <strong>1.55</strong> in ChooseMyStat and note the new n.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Exercise 3 · Step 2: OR sensitivity table -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 3 · Step 2 — The OR Sensitivity Cascade</div>
+    <h2>As OR Approaches the Null, n Explodes</h2>
+  </div>
+  <table class="params-table" style="font-size:0.72em;">
+    <tr style="background:#e0e7ff;"><th>Odds Ratio</th><th>n per group</th><th>Total (1:1)</th><th>Feasibility</th></tr>
+    <tr><td><strong>2.00</strong> (upper estimate)</td><td>176</td><td>352</td><td style="color:#059669;">✓ Single-centre thesis</td></tr>
+    <tr><td><strong>1.67</strong></td><td>331</td><td>662</td><td style="color:#f59e0b;">⚠ Needs large hospital</td></tr>
+    <tr><td><strong>1.55</strong></td><td>459</td><td>918</td><td style="color:#dc2626;">✗ Multi-centre needed</td></tr>
+    <tr><td><strong>1.20</strong></td><td>2,806</td><td>5,612</td><td style="color:#dc2626;">✗ Population-level study</td></tr>
+    <tr><td><strong>1.15</strong> (lower estimate)</td><td>4,829</td><td>9,658</td><td style="color:#dc2626;">✗ National registry</td></tr>
+  </table>
+  <div class="warn-box" style="font-size:0.78em;">
+    <strong>Key insight:</strong> OR = 2.0 → 352 total. OR = 1.20 → 5,612 total. A modest shift in the expected OR changes your study from a <em>feasible thesis</em> to a <em>national registry project</em>. This is why honestly reporting the range of ORs from literature matters!
+  </div>
+  <aside class="notes">
+    Pause here. Ask: "If the meta-analysis says OR ranges from 1.15 to 2.0, which OR should you use for sample size?" Answer: the smallest clinically meaningful OR you want to detect — not the most convenient one. If you're underpowered for the true effect, your negative result is meaningless.
+  </aside>
+</section>
+
+<!-- Exercise 3 · Step 3: Unequal allocation -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 3 · Step 3 — Unequal Allocation</div>
+    <h2>Can More Controls Save You Cases?</h2>
+  </div>
+  <p style="font-size:0.82em;">Fix OR = 1.5. Now change the <strong>case:control ratio</strong> in ChooseMyStat:</p>
+  <table class="params-table" style="font-size:0.75em;">
+    <tr style="background:#e0e7ff;"><th>Ratio</th><th>Cases</th><th>Controls</th><th>Total</th></tr>
+    <tr><td><strong>1:1</strong></td><td>535</td><td>535</td><td>1,070</td></tr>
+    <tr><td><strong>1:2</strong></td><td>395</td><td>790</td><td>1,185</td></tr>
+    <tr><td><strong>1:4</strong></td><td>325</td><td>1,299</td><td>1,624</td></tr>
+  </table>
+  <div class="concept-box" style="font-size:0.78em;">
+    <strong>Trade-off:</strong> Going from 1:1 to 1:2 cuts <em>cases</em> by 26% (535 → 395) but increases <em>total</em> subjects. Useful when cases are rare and controls are plentiful. Beyond 1:4, gains diminish rapidly.
+  </div>
+  <div class="sap-text" style="font-size:0.68em;">
+    "Using a two-sided test for OR in a case-control design (α = 0.05, power = 0.80), to detect an OR of 1.55 for breast cancer with tobacco use <strong>(Indian meta-analysis, J Mid-life Health, 2025)</strong>, assuming 20% tobacco exposure among controls and 1:2 case-to-control ratio, 395 cases and 790 controls (1,185 total) are required."
+  </div>
+</section>
+
+<!-- ─────────────────────────────────────────────────────── -->
+<!-- EXERCISE 4: Diagnostic Accuracy — TrueNat or Dengue NS1 -->
+<!-- ─────────────────────────────────────────────────────── -->
+<section>
+  <div class="exercise-header">
+    <div class="exercise-num">Exercise 4 · Diagnostic Accuracy Study — Choose One!</div>
+    <h2>TrueNat for Pulmonary TB &nbsp;OR&nbsp; Dengue NS1 Rapid Card</h2>
+  </div>
+  <div class="cols">
+    <div class="scenario-box" style="flex:1;">
+      <strong>Option A — TrueNat for Pulmonary TB:</strong><br/>
+      You are evaluating <strong>TrueNat MTB</strong> (a chip-based NAAT) against <strong>GeneXpert/culture</strong> as the gold standard for diagnosing pulmonary TB. Expected <strong>sensitivity = 90%</strong>. You want precision of <strong>±5%</strong>. <strong>TB prevalence</strong> among presumptive TB patients in your DOTS centre is <strong>≈20%</strong>.
+    </div>
+    <div class="scenario-box" style="flex:1;">
+      <strong>Option B — Dengue NS1 Rapid Card:</strong><br/>
+      You are evaluating a <strong>dengue NS1 antigen rapid card</strong> against <strong>RT-PCR</strong> as the gold standard. Expected <strong>sensitivity = 80%</strong>. You want precision of <strong>±5%</strong>. <strong>Dengue positivity</strong> among febrile suspects in your hospital during monsoon season is <strong>≈30%</strong>.
+    </div>
+  </div>
+  <div class="pathway-hint">
+    💡 <strong>Pathway:</strong> Diagnostic Accuracy → … → Sensitivity/Specificity → Click <strong>"Calculate Sample Size"</strong><br/>
+    <em>OR</em> directly: Sample Size → "Diagnostic accuracy"
+  </div>
+  <div class="try-it">📱 Pick one option and solve it in ChooseMyStat!</div>
+  <aside class="notes">
+    Both use the same formula (single-proportion estimation of sensitivity). Students choose based on their department/interest. Give 3-4 minutes. Walk around and compare answers across the room.
   </aside>
 </section>
 
 <section>
   <div class="exercise-header">
-    <div class="exercise-num">Exercise 3 · Solution</div>
-    <h2>Indoor Air Pollution and COPD — Solution</h2>
+    <div class="exercise-num">Exercise 4 · Solutions</div>
+    <h2>Diagnostic Accuracy — Both Options</h2>
   </div>
   <div class="cols">
     <div>
-      <h3>Parameters</h3>
-      <table class="params-table">
-        <tr><td>Odds Ratio (OR)</td><td><strong>2.65</strong></td></tr>
-        <tr><td>Exposure in controls (p₀)</td><td><strong>0.40</strong></td></tr>
-        <tr><td>Case:Control ratio</td><td><strong>1:1</strong></td></tr>
-        <tr><td>α (two-sided)</td><td><strong>0.05</strong></td></tr>
-        <tr><td>Power</td><td><strong>0.80</strong></td></tr>
-        <tr><td>Dropout</td><td><strong>0%</strong></td></tr>
+      <h3>Option A: TrueNat for TB</h3>
+      <table class="params-table" style="font-size:0.7em;">
+        <tr><td>Expected sensitivity</td><td><strong>0.90</strong></td></tr>
+        <tr><td>Precision (±)</td><td><strong>0.05</strong></td></tr>
+        <tr><td>Prevalence</td><td><strong>0.20</strong></td></tr>
+        <tr><td>Confidence</td><td><strong>95%</strong></td></tr>
       </table>
-      <div class="result-box">
-        <div class="n-value">71 per group</div>
-        <div class="smaller">71 cases + 71 controls = 142 total</div>
+      <div class="result-box" style="font-size:0.85em;">
+        <div>Diseased needed: <strong>139</strong></div>
+        <div class="n-value">Total ≈ 692</div>
       </div>
     </div>
     <div>
-      <h3>SAP Text</h3>
-      <div class="sap-text">
-        "Using a two-sided test for the odds ratio in a case-control design (α = 0.05, power = 0.80), to detect an OR of 2.65 for COPD with biomass fuel exposure <strong>(Sana A et al., 2019, <em>Int J COPD</em>; pooled OR = 2.65 from 35 studies)</strong>, assuming 40% exposure prevalence among controls and 1:1 matching, 71 cases and 71 controls (142 total) are required."
-      </div>
-      <div class="concept-box" style="font-size:0.75em;">
-        <strong>Discussion:</strong> What if you increase the ratio to 1:2 (more controls)? How does it change n? When is unequal allocation useful?
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─────────────────────────────────────────────────────── -->
-<!-- EXERCISE 4: Diagnostic Accuracy (was Exercise 6) -->
-<!-- ─────────────────────────────────────────────────────── -->
-<section>
-  <div class="exercise-header">
-    <div class="exercise-num">Exercise 4 · Diagnostic Accuracy Study</div>
-    <h2>POCUS vs CT for Acute Appendicitis</h2>
-  </div>
-  <div class="scenario-box">
-    <strong>Scenario:</strong> You are evaluating <strong>point-of-care ultrasound (POCUS)</strong> performed by emergency physicians for diagnosing acute appendicitis, with <strong>CT abdomen</strong> as the gold standard. A meta-analysis by <strong>Fields JM et al. (2021, <em>Acad Emerg Med</em>)</strong> reported pooled sensitivity of 91% (95% CI: 83–96%) overall, with <strong>adult-specific sensitivity of 84.3%</strong> (76.6–90.3%). Using the adult-specific estimate, you expect <strong>sensitivity ≈ 85%</strong>. You want to estimate this with a precision of <strong>±7 percentage points</strong>. The expected <strong>prevalence of appendicitis</strong> in your ED population presenting with RIF pain is <strong>30%</strong>.
-  </div>
-  <div class="pathway-hint">
-    💡 <strong>Pathway:</strong> Diagnostic Accuracy → … → Sensitivity/Specificity → Click <strong>"Calculate Sample Size"</strong> button<br/>
-    <em>OR</em> directly: Sample Size → "Diagnostic accuracy"
-  </div>
-  <div class="try-it">📱 Try the Diagnostic Accuracy pathway to see the cross-link in action!</div>
-</section>
-
-<section>
-  <div class="exercise-header">
-    <div class="exercise-num">Exercise 4 · Solution</div>
-    <h2>POCUS for Appendicitis — Solution</h2>
-  </div>
-  <div class="cols">
-    <div>
-      <h3>Parameters</h3>
-      <table class="params-table">
-        <tr><td>Expected sensitivity</td><td><strong>0.85</strong></td></tr>
-        <tr><td>Precision (half-width CI)</td><td><strong>0.07</strong></td></tr>
+      <h3>Option B: Dengue NS1</h3>
+      <table class="params-table" style="font-size:0.7em;">
+        <tr><td>Expected sensitivity</td><td><strong>0.80</strong></td></tr>
+        <tr><td>Precision (±)</td><td><strong>0.05</strong></td></tr>
         <tr><td>Prevalence</td><td><strong>0.30</strong></td></tr>
-        <tr><td>Confidence level</td><td><strong>95%</strong></td></tr>
-        <tr><td>Dropout</td><td><strong>5%</strong></td></tr>
+        <tr><td>Confidence</td><td><strong>95%</strong></td></tr>
       </table>
-      <div class="result-box">
-        <div>Diseased subjects needed: ~100</div>
-        <div class="n-value">Total ≈ 333</div>
-        <div class="smaller">~351 with 5% dropout</div>
+      <div class="result-box" style="font-size:0.85em;">
+        <div>Diseased needed: <strong>246</strong></div>
+        <div class="n-value">Total ≈ 820</div>
       </div>
     </div>
-    <div>
-      <h3>Key teaching point</h3>
-      <div class="concept-box" style="font-size:0.78em;">
-        <strong>Why does prevalence matter?</strong> The formula calculates how many <em>diseased</em> subjects you need (to estimate sensitivity). If prevalence = 30%, you need to screen 100/0.30 ≈ 333 total patients to find enough diseased cases.
-      </div>
-      <div class="sap-text">
-        "To estimate the sensitivity of POCUS for appendicitis with ±7% precision and 95% confidence, assuming sensitivity = 85% (Fields et al., 2021) and prevalence = 30%, ~333 consecutive patients are needed."
-      </div>
-    </div>
+  </div>
+  <div class="concept-box" style="font-size:0.75em;">
+    <strong>Why does Option B need more?</strong> Two reasons: (1) sensitivity 80% has more variance than 90% (p×q is maximal near 50%), and (2) prevalence matters — it determines how many total patients you screen to find enough diseased subjects. <strong>n_total = n_diseased / prevalence.</strong>
   </div>
 </section>
 
 <!-- ─────────────────────────────────────────────────────── -->
-<!-- EXERCISE 5: Agreement (Kappa) (was Exercise 7) -->
+<!-- EXERCISE 5: Agreement (Kappa) — USG vs MRI Rotator Cuff -->
 <!-- ─────────────────────────────────────────────────────── -->
 <section>
   <div class="exercise-header">
     <div class="exercise-num">Exercise 5 · Agreement Study</div>
-    <h2>Inter-observer Agreement for DR Grading</h2>
+    <h2>USG vs MRI for Rotator Cuff Tears</h2>
   </div>
   <div class="scenario-box">
-    <strong>Scenario:</strong> You are a DM Ophthalmology resident conducting a study on <strong>inter-observer agreement</strong> between two ophthalmologists for grading severity of <strong>diabetic retinopathy (DR)</strong> on fundus photographs. A study by <strong>Ruamviboonsuk P et al. (2006, <em>Am J Ophthalmol</em>)</strong> reported inter-observer kappa of <strong>0.85</strong> (p &lt; 0.001) for DR grading on digital images. Using a more conservative estimate, you expect a <strong>kappa of 0.70</strong> (substantial agreement). You want to test this against a null hypothesis of <strong>kappa = 0.40</strong> (moderate agreement), with <strong>80% power</strong> and <strong>α = 0.05</strong>.
+    <strong>Scenario:</strong> You are an MS Orthopaedics resident conducting a study on <strong>agreement between ultrasound (USG) and MRI</strong> for diagnosing <strong>rotator cuff tears</strong> (dichotomised: tear vs no tear). Based on a <strong>North India study comparing USG and MRI for rotator cuff pathology</strong>, you expect a <strong>Cohen's kappa of 0.70</strong> (substantial agreement). You want to test this against a null hypothesis of <strong>kappa = 0.40</strong> (moderate agreement), with <strong>80% power</strong> and <strong>α = 0.05</strong>.
+  </div>
+  <div class="warn-box" style="font-size:0.78em;">
+    <strong>Important:</strong> For kappa, the sample size depends on the <em>prevalence of the positive finding</em> (proportion of subjects with a tear). This assumption is often overlooked!
   </div>
   <div class="pathway-hint">
     💡 <strong>Pathway:</strong> Agreement → "Inter-rater" → "Categorical" → <em>Cohen's Kappa</em> → Click <strong>"Calculate Sample Size"</strong><br/>
     <em>OR</em> directly: Sample Size → "Agreement / Reliability" → Kappa
   </div>
   <div class="try-it">📱 Try the Agreement pathway → cross-link to sample size!</div>
+  <aside class="notes">
+    Key teaching point for this exercise: kappa sample size depends on prevalence of the positive category. Ask students to solve it first, then reveal the prevalence-dependence on the solution slide.
+  </aside>
 </section>
 
 <section>
   <div class="exercise-header">
     <div class="exercise-num">Exercise 5 · Solution</div>
-    <h2>DR Grading Agreement — Solution</h2>
+    <h2>USG vs MRI Rotator Cuff — Solution</h2>
   </div>
   <div class="cols">
     <div>
@@ -759,20 +822,25 @@
         <tr><td>α (two-sided)</td><td><strong>0.05</strong></td></tr>
         <tr><td>Power</td><td><strong>0.80</strong></td></tr>
         <tr><td>Number of raters</td><td><strong>2</strong></td></tr>
-        <tr><td>Dropout</td><td><strong>0%</strong></td></tr>
       </table>
-      <div class="result-box">
-        <div class="n-value">n ≈ 41</div>
-        <div class="smaller">41 fundus images to be graded by both observers</div>
-      </div>
+      <h3 style="margin-top:0.5em;">n depends on tear prevalence!</h3>
+      <table class="params-table" style="font-size:0.72em;">
+        <tr style="background:#e0e7ff;"><th>Tear prevalence</th><th>n (subjects)</th></tr>
+        <tr><td>30%</td><td><strong>≈ 86</strong></td></tr>
+        <tr><td>40%</td><td><strong>≈ 76</strong></td></tr>
+        <tr><td>50%</td><td><strong>≈ 73</strong></td></tr>
+      </table>
     </div>
     <div>
       <h3>SAP Text</h3>
       <div class="sap-text">
-        "To detect a kappa of 0.70 against a null of 0.40 for inter-observer agreement in DR grading, with α = 0.05 and 80% power, a minimum of 41 fundus images are required, each graded independently by both ophthalmologists."
+        "To detect a Cohen's kappa of 0.70 against a null of 0.40 for agreement between USG and MRI in diagnosing rotator cuff tears, with α = 0.05 and 80% power, assuming a tear prevalence of 40%, a minimum of 76 shoulders are required, each evaluated independently by both modalities."
       </div>
       <div class="concept-box" style="font-size:0.75em;">
-        <strong>Discussion:</strong> For agreement studies, n is typically small. But what about ICC for continuous measurements (e.g., macular thickness on OCT)?
+        <strong>Why does prevalence matter?</strong> When one category dominates (e.g., 90% no-tear), chance agreement (P_e) is high, making kappa harder to estimate precisely → larger n. Kappa is most efficient near 50/50 prevalence. <strong>Always state the assumed prevalence in your SAP!</strong>
+      </div>
+      <div class="warn-box" style="font-size:0.72em;">
+        <strong>Tip:</strong> Verify your answer against ChooseMyStat's kappa calculator — kappa sample size formulas vary across software. Anchor to one tool and cite it.
       </div>
     </div>
   </div>
@@ -780,10 +848,92 @@
 
 
 <!-- ═══════════════════════════════════════════════════════ -->
+<!-- SECTION: WRITING A COMPLETE ANALYSIS PLAN (SAP) -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<section class="section-divider" data-background-color="#0d9488">
+  <h1 style="color:white !important;">Part 4</h1>
+  <p style="color:#ccfbf1;">Beyond Sample Size — Writing a Complete Analysis Plan</p>
+  <p style="color:#99f6e4; font-size:0.6em;">The SAP is not just "n = 384". It tells the reader exactly how you will analyse the data.</p>
+</section>
+
+<!-- ANATOMY OF A FULL SAP -->
+<section>
+  <h2>Anatomy of a Complete Statistical Analysis Plan</h2>
+  <p style="font-size:0.82em;">Your protocol's SAP section should cover <strong>three blocks</strong>:</p>
+  <div style="display:flex; gap:0.8em; font-size:0.75em;">
+    <div class="concept-box" style="flex:1; border-left-color:#0d9488;">
+      <strong>1. Descriptive Statistics</strong><br/>
+      How you will <em>summarize</em> the data: mean ± SD or median (IQR) for continuous variables, frequency (%) for categorical. State which summary measure for each variable and how normality is assessed.
+    </div>
+    <div class="concept-box" style="flex:1; border-left-color:#2563eb;">
+      <strong>2. Inferential Analysis</strong><br/>
+      The statistical test for each objective — primary outcome first, then secondary. Include: the test name, why it is appropriate, confounder handling, significance level, and any multiplicity adjustment.
+    </div>
+    <div class="concept-box" style="flex:1; border-left-color:#7c3aed;">
+      <strong>3. Sample Size</strong><br/>
+      The calculation you just learned: test, parameters, source citation, analytical n, dropout-adjusted n. This anchors the whole plan.
+    </div>
+  </div>
+  <aside class="notes">
+    Most students only write the sample size part. The analysis plan tells the ethics committee and reviewers that you know what you're going to do with the data BEFORE you collect it. Pre-registration of analysis prevents p-hacking.
+  </aside>
+</section>
+
+<!-- INFERENTIAL SAP — WHAT TO INCLUDE -->
+<section>
+  <h2>Writing the Inferential Analysis Paragraph</h2>
+  <p style="font-size:0.82em;">For <strong>each objective</strong>, state:</p>
+  <ol style="font-size:0.78em;">
+    <li><strong>Primary outcome</strong> and its measurement scale (continuous/categorical/time-to-event)</li>
+    <li><strong>Statistical test</strong> — name it explicitly (e.g., "independent t-test", "Mann-Whitney U", "chi-square test", "Cox proportional hazards")</li>
+    <li><strong>Confounder handling</strong> — if applicable: multivariable regression, stratification, propensity score</li>
+    <li><strong>Significance level</strong> — typically α = 0.05 two-sided; state if one-sided (and justify)</li>
+    <li><strong>Multiplicity adjustment</strong> — if multiple primary outcomes or comparisons: Bonferroni, Holm, FDR</li>
+    <li><strong>Missing data approach</strong> — complete case analysis, multiple imputation, or intention-to-treat</li>
+    <li><strong>Software</strong> — "Analysis will be performed using R (v4.x) / SPSS (v28) / Stata (v17)"</li>
+  </ol>
+</section>
+
+<!-- EXAMPLE: FULL SAP FOR THE TXA EXERCISE -->
+<section>
+  <h2>Example: Full SAP for the TXA in LSCS Study</h2>
+  <div class="sap-text" style="font-size:0.62em; line-height:1.7;">
+    <strong>Descriptive statistics:</strong> Continuous variables will be summarized as mean ± SD or median (IQR) depending on normality assessed by Shapiro-Wilk test. Categorical variables will be presented as frequency (%).<br/><br/>
+    <strong>Primary analysis:</strong> Intraoperative blood loss (mL) between TXA and placebo groups will be compared using an <strong>independent-samples t-test</strong> (or Mann-Whitney U test if non-normal). The primary outcome will be reported as mean difference with 95% CI. A two-sided <strong>p &lt; 0.05</strong> will be considered statistically significant.<br/><br/>
+    <strong>Secondary analyses:</strong> Need for additional uterotonics (yes/no) will be compared using chi-square test. Pre- to post-operative Hb change will be compared using independent t-test. No multiplicity adjustment will be applied for secondary outcomes, which are exploratory.<br/><br/>
+    <strong>Missing data:</strong> Primary analysis will follow intention-to-treat principle. Missing primary outcome data will be handled by multiple imputation if &lt;20% missing; otherwise sensitivity analysis will be performed.<br/><br/>
+    <strong>Sample size:</strong> Using an independent-samples t-test (α = 0.05, power = 0.80) to detect a mean difference of 50 mL (SD = 120 mL; Khanam et al., 2023), 91 per group are required. With 10% dropout, enrollment target = 204.<br/><br/>
+    <strong>Software:</strong> All analyses will be performed using R version 4.x (R Foundation for Statistical Computing, Vienna, Austria).
+  </div>
+</section>
+
+<!-- HOW TO ASSEMBLE A FULL SAP -->
+<section>
+  <h2>Assembling Your Full SAP — Workflow</h2>
+  <div style="font-size:0.8em;">
+    <div class="concept-box" style="border-left-color:#059669;">
+      <strong>Step 1:</strong> Use ChooseMyStat to get your <strong>sample size statement</strong> + <strong>test recommendation</strong> (the SAP Text tab gives you both)
+    </div>
+    <div class="concept-box" style="border-left-color:#2563eb;">
+      <strong>Step 2:</strong> Write the <strong>descriptive statistics</strong> paragraph — this is nearly the same for every study (template on earlier slide)
+    </div>
+    <div class="concept-box" style="border-left-color:#7c3aed;">
+      <strong>Step 3:</strong> Write the <strong>inferential plan</strong> for each objective — use the test name from ChooseMyStat, add confounder handling and missing data approach
+    </div>
+    <div class="concept-box" style="border-left-color:#d97706;">
+      <strong>Step 4 (optional):</strong> Download your plan from ChooseMyStat and <strong>feed it to any GenAI</strong> (ChatGPT, Claude, Gemini) to stitch it into a polished paragraph. <em>Always review and edit the output!</em>
+    </div>
+  </div>
+  <aside class="notes">
+    Emphasize: GenAI can help format, but YOU must verify the statistical content. The AI doesn't know your study design. ChooseMyStat gives you the correct test and parameters — the AI just helps with prose.
+  </aside>
+</section>
+
+<!-- ═══════════════════════════════════════════════════════ -->
 <!-- SECTION: WRAP-UP -->
 <!-- ═══════════════════════════════════════════════════════ -->
 <section class="section-divider" data-background-color="#7c3aed">
-  <h1 style="color:white !important;">Part 4</h1>
+  <h1 style="color:white !important;">Part 5</h1>
   <p style="color:#ddd6fe;">Common Mistakes, Tips &amp; Resources</p>
 </section>
 
