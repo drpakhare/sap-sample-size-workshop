@@ -199,14 +199,26 @@
   <div class="cols">
     <div>
       <h3>Normally distributed</h3>
-      <p class="smaller">Symmetric, bell-shaped</p>
+      <svg viewBox="0 0 200 90" style="width:100%;max-width:200px;display:block;margin:0.3em auto;">
+        <path d="M10,80 Q30,78 50,70 Q70,50 80,30 Q90,10 100,8 Q110,10 120,30 Q130,50 150,70 Q170,78 190,80" fill="none" stroke="#059669" stroke-width="3"/>
+        <line x1="100" y1="8" x2="100" y2="85" stroke="#059669" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+        <text x="100" y="88" text-anchor="middle" font-size="8" fill="#059669" font-weight="600">Mean = Median</text>
+      </svg>
       <p class="smaller">Use: <strong>Mean ± SD</strong></p>
       <p class="smaller">Tests: t-test, ANOVA, Pearson r</p>
       <p class="smaller">Examples: Height, BP, Hb in large samples</p>
     </div>
     <div>
       <h3>Skewed / non-normal</h3>
-      <p class="smaller">Asymmetric, outliers pull the mean</p>
+      <svg viewBox="0 0 200 90" style="width:100%;max-width:200px;display:block;margin:0.3em auto;">
+        <path d="M10,80 Q20,78 35,72 Q50,55 60,30 Q65,15 72,10 Q80,15 95,35 Q120,60 150,72 Q170,78 190,80" fill="none" stroke="#d97706" stroke-width="3"/>
+        <line x1="72" y1="10" x2="72" y2="85" stroke="#d97706" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+        <text x="72" y="88" text-anchor="middle" font-size="7" fill="#d97706" font-weight="600">Median</text>
+        <line x1="110" y1="45" x2="110" y2="85" stroke="#dc2626" stroke-width="1" stroke-dasharray="4,3" opacity="0.6"/>
+        <text x="110" y="88" text-anchor="middle" font-size="7" fill="#dc2626" font-weight="600">Mean</text>
+        <path d="M140,72 C155,65 170,62 185,68" fill="none" stroke="#d97706" stroke-width="1.5" opacity="0.5"/>
+        <text x="165" y="60" font-size="7" fill="#d97706" opacity="0.7">tail</text>
+      </svg>
       <p class="smaller">Use: <strong>Median (IQR)</strong></p>
       <p class="smaller">Tests: Mann-Whitney, Kruskal-Wallis, Spearman</p>
       <p class="smaller">Examples: Hospital LOS, income, CRP, viral load</p>
@@ -217,29 +229,7 @@
   </div>
 </section>
 
-<!-- P-VALUE AND CI -->
-<section>
-  <h2>p-value and confidence interval — what they really mean</h2>
-  <div class="cols">
-    <div>
-      <h3>p-value</h3>
-      <p class="smaller">Probability of seeing this result (or more extreme) <strong>if there were truly no difference</strong></p>
-      <p class="smaller">p &lt; 0.05 → "unlikely by chance alone"</p>
-      <p class="smaller">p = 0.03 does NOT mean "3% chance the result is wrong"</p>
-    </div>
-    <div>
-      <h3>95% Confidence Interval</h3>
-      <p class="smaller">Range within which the <strong>true population value</strong> plausibly lies</p>
-      <p class="smaller">Narrower CI = more precise estimate</p>
-      <p class="smaller">If CI for difference includes 0 → not significant</p>
-    </div>
-  </div>
-  <div class="concept-box" style="margin-top:0.5em;">
-    <strong>For your protocol:</strong> Always report <em>both</em> p-values and CIs. The CI tells the reader HOW BIG the effect is, not just whether it exists. This is what IEC reviewers want to see.
-  </div>
-</section>
-
-<!-- HYPOTHESIS TESTING LOGIC -->
+<!-- HYPOTHESIS TESTING LOGIC (moved before p-value/CI for logical flow) -->
 <section>
   <h2>Hypothesis testing — the logic of sample size</h2>
   <div class="flow-diagram" style="margin:0.5em 0;">
@@ -263,6 +253,30 @@
   </div>
   <div class="concept-box" style="margin-top:0.5em;">
     <strong>Sample size is the tool that controls both errors simultaneously.</strong> Larger n → lower chance of both errors → more reliable conclusions.
+  </div>
+</section>
+
+<!-- P-VALUE AND CI (expanded with clinician perspective) -->
+<section>
+  <h2>p-value and confidence interval — what they really mean</h2>
+  <div class="cols">
+    <div>
+      <h3>p-value — the clinician's interpretation</h3>
+      <p class="smaller">Probability of seeing this result (or more extreme) <strong>if H₀ were true</strong> (i.e., if there were truly no difference)</p>
+      <p class="smaller">p &lt; 0.05 → "unlikely by chance alone" → reject H₀</p>
+      <p class="smaller" style="color:#dc2626;"><strong>Common mistake:</strong> p = 0.03 does NOT mean "3% chance the drug doesn't work." It means: <em>if</em> the drug had zero effect, you'd see data this extreme only 3% of the time.</p>
+      <p class="smaller"><strong>Clinical pitfall:</strong> A very large study can give p &lt; 0.001 for a clinically <em>trivial</em> 0.2 mmHg BP difference. Statistical significance ≠ clinical importance.</p>
+    </div>
+    <div>
+      <h3>95% CI — what reviewers really want</h3>
+      <p class="smaller">Range within which the <strong>true population value</strong> plausibly lies</p>
+      <p class="smaller">Narrower CI = more precise estimate (larger n helps)</p>
+      <p class="smaller">If CI for a difference includes 0 → not significant</p>
+      <p class="smaller"><strong>Why IEC committees prefer CIs:</strong> "The mean BP reduction was <strong>8.5 mmHg (95% CI: 5.2–11.8)</strong>" tells a clinician both direction, magnitude, and precision — far more useful than just "p = 0.001."</p>
+    </div>
+  </div>
+  <div class="concept-box" style="margin-top:0.5em;">
+    <strong>For your protocol:</strong> Always report <em>both</em> p-values and CIs. The p-value answers "is there an effect?"; the CI answers "how big is it and how sure are we?" This is what IEC reviewers and journal editors increasingly demand (ICMJE, CONSORT, STROBE all require effect sizes with CIs).
   </div>
 </section>
 
@@ -340,18 +354,16 @@
 
 <!-- WHAT IS A SAP STATEMENT -->
 <section>
-  <h2>What is a SAP statement?</h2>
-  <p>The <strong>Statistical Analysis Plan</strong> paragraph in your protocol that justifies your sample size. It must contain:</p>
+  <h2>What is a SAP?</h2>
+  <p>The <strong>Statistical Analysis Plan</strong> is a section of your protocol that describes your <em>entire</em> analysis strategy — not just sample size. It has three blocks:</p>
   <ol>
-    <li>The <strong>statistical test</strong> you plan to use</li>
-    <li>The <strong>expected values</strong> (effect size, proportions, means)</li>
-    <li><strong>Alpha</strong> and <strong>power</strong></li>
-    <li>The <strong>computed n</strong></li>
-    <li><strong>Dropout adjustment</strong> (if applicable)</li>
-    <li>The <strong>reference</strong> for your expected values</li>
+    <li><strong>Descriptive plan</strong> — how you'll summarise each variable (mean ± SD, median, frequency)</li>
+    <li><strong>Inferential plan</strong> — which tests, confounder handling, missing data approach</li>
+    <li><strong>Sample size justification</strong> — the statement that justifies your n</li>
   </ol>
+  <p class="smaller">The <strong>sample size statement</strong> (block 3) must include: the test, expected values, α, power, computed n, dropout adjustment, and the reference for your estimates.</p>
   <div class="concept-box">
-    ChooseMyStat generates this entire statement for you in the <strong>SAP Text</strong> tab. You add the reference and it's ready for your protocol.
+    ChooseMyStat generates the <strong>sample size statement</strong> for you in the SAP Text tab. But remember: that's only one block of a complete SAP. The next two slides cover the other blocks.
   </div>
 </section>
 
@@ -523,7 +535,10 @@
   <div class="pathway-hint">
     💡 <strong>Pathway:</strong> Sample Size → Decision tree → "Estimate a parameter" → "A proportion" → Single Proportion Estimation
   </div>
-  <div class="try-it">📱 Open ChooseMyStat and try it now!</div>
+  <div style="display:flex; align-items:center; gap:1em; margin:0.5em 0;">
+    <div class="try-it" style="margin:0;">📱 Open ChooseMyStat and try it now!</div>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://choose-my-stat.vercel.app" alt="QR" style="width:80px; border:2px solid #e5e7eb; border-radius:6px;" />
+  </div>
   <aside class="notes">
     This is a warm-up exercise. Walk around and help students navigate to the Sample Size pathway. They should reach the "Estimate a proportion" calculator. Expected answer: n ≈ 384 (p=0.52). With 10% non-response → ~427.
   </aside>
@@ -555,12 +570,12 @@
         "To estimate the prevalence of anaemia among pregnant women with an absolute precision of ±5 percentage points and 95% confidence, assuming an expected prevalence of 52% <strong>(IIPS &amp; ICF. NFHS-5, 2019–21. Mumbai: IIPS, 2021)</strong>, a minimum of 384 subjects is required. Accounting for an anticipated 10% non-response rate, the enrollment target is 427 subjects."
       </div>
       <div class="concept-box" style="font-size:0.75em;">
-        <strong>Discussion:</strong> Note how the NFHS-5 citation is embedded. What if prevalence is unknown — what value of p maximises n? (Answer: p = 0.50 → n = 385, nearly the same!)
+        <strong>Discussion:</strong> Note how the NFHS-5 citation is embedded. What if prevalence is unknown? Using p = 0.50 maximises n (gives 385 — most conservative). But for <em>low</em> prevalence (e.g., p = 0.05), this "safe" default gives a sample 5× larger than needed. In practice: use the best available estimate from literature, not p = 0.50 as a shortcut.
       </div>
     </div>
   </div>
   <aside class="notes">
-    Key teaching point: When prevalence is unknown, use p = 0.50 — this gives maximum sample size (most conservative). Also discuss: NFHS-5 or a local study as the source for the expected prevalence.
+    Key teaching point: p = 0.50 maximises n mathematically (p×q is maximal at 0.5). BUT — for estimating a rare condition (say p = 0.05), using p = 0.50 gives n = 385 when you really only need n = 73. It's the "safe" default, but often wastefully conservative. Better approach: always look for a pilot estimate or NFHS/local data. Also discuss: NFHS-5 or a local study as the source for the expected prevalence.
   </aside>
 </section>
 
@@ -578,7 +593,10 @@
   <div class="pathway-hint">
     💡 <strong>Pathway:</strong> Inferential → "Compare groups" → 2 groups → Continuous → Independent → <em>Independent t-test</em> → Click <strong>"Calculate Sample Size"</strong> button
   </div>
-  <div class="try-it">📱 Try the Inferential pathway first, then click the cross-link!</div>
+  <div style="display:flex; align-items:center; gap:1em; margin:0.5em 0;">
+    <div class="try-it" style="margin:0;">📱 Try the Inferential pathway first, then click the cross-link!</div>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://choose-my-stat.vercel.app" alt="QR" style="width:80px; border:2px solid #e5e7eb; border-radius:6px;" />
+  </div>
   <aside class="notes">
     This exercise demonstrates the CROSS-LINK feature. Students go through the inferential pathway, get "Independent t-test" recommendation, then click "Calculate Sample Size for Independent t-test →" button. Key point: we deliberately use a conservative 50 mL difference (not the 100 mL from one trial) because that is what a meta-analysis supports. This sets up the sensitivity challenge next.
   </aside>
@@ -660,7 +678,10 @@
   <div class="pathway-hint">
     💡 <strong>Pathway:</strong> Sample Size → Decision tree → "Test a hypothesis" → "Case-control" → Case-Control (OR)
   </div>
-  <div class="try-it">📱 Open ChooseMyStat → Case-Control calculator. Start with OR = 2.0</div>
+  <div style="display:flex; align-items:center; gap:1em; margin:0.5em 0;">
+    <div class="try-it" style="margin:0;">📱 Open ChooseMyStat → Case-Control calculator. Start with OR = 2.0</div>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://choose-my-stat.vercel.app" alt="QR" style="width:80px; border:2px solid #e5e7eb; border-radius:6px;" />
+  </div>
   <aside class="notes">
     This is a multi-slide sensitivity exercise. Students start by computing n for OR=2.0 (the largest reported effect). Then we progressively lower the OR toward the null to show how n explodes. Finally we explore unequal allocation. Give 2-3 minutes for the first calculation.
   </aside>
@@ -760,7 +781,10 @@
     💡 <strong>Pathway:</strong> Diagnostic Accuracy → … → Sensitivity/Specificity → Click <strong>"Calculate Sample Size"</strong><br/>
     <em>OR</em> directly: Sample Size → "Diagnostic accuracy"
   </div>
-  <div class="try-it">📱 Pick one option and solve it in ChooseMyStat!</div>
+  <div style="display:flex; align-items:center; gap:1em; margin:0.5em 0;">
+    <div class="try-it" style="margin:0;">📱 Pick one option and solve it in ChooseMyStat!</div>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://choose-my-stat.vercel.app" alt="QR" style="width:80px; border:2px solid #e5e7eb; border-radius:6px;" />
+  </div>
   <aside class="notes">
     Both use the same formula (single-proportion estimation of sensitivity). Students choose based on their department/interest. Give 3-4 minutes. Walk around and compare answers across the room.
   </aside>
@@ -822,7 +846,10 @@
     💡 <strong>Pathway:</strong> Agreement → "Inter-rater" → "Categorical" → <em>Cohen's Kappa</em> → Click <strong>"Calculate Sample Size"</strong><br/>
     <em>OR</em> directly: Sample Size → "Agreement / Reliability" → Kappa
   </div>
-  <div class="try-it">📱 Try the Agreement pathway → cross-link to sample size!</div>
+  <div style="display:flex; align-items:center; gap:1em; margin:0.5em 0;">
+    <div class="try-it" style="margin:0;">📱 Try the Agreement pathway → cross-link to sample size!</div>
+    <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://choose-my-stat.vercel.app" alt="QR" style="width:80px; border:2px solid #e5e7eb; border-radius:6px;" />
+  </div>
   <aside class="notes">
     Key teaching point for this exercise: kappa sample size depends on prevalence of the positive category. Ask students to solve it first, then reveal the prevalence-dependence on the solution slide.
   </aside>
