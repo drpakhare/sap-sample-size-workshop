@@ -382,6 +382,26 @@
   </aside>
 </section>
 
+<!-- INFERENTIAL ANALYSIS PLAN IN SAP -->
+<section>
+  <h2>The SAP is more than sample size — inferential plan</h2>
+  <p class="smaller">For <strong>each objective</strong>, your SAP must also state:</p>
+  <ol style="font-size:0.78em;">
+    <li><strong>Primary outcome</strong> and its measurement scale (continuous / categorical / time-to-event)</li>
+    <li><strong>Statistical test</strong> — name it explicitly (e.g., "independent t-test", "chi-square", "Cox regression")</li>
+    <li><strong>Confounder handling</strong> — if applicable: multivariable regression, stratification, propensity score</li>
+    <li><strong>Multiplicity adjustment</strong> — if multiple primary outcomes: Bonferroni, Holm, FDR</li>
+    <li><strong>Missing data approach</strong> — complete case, multiple imputation, or ITT</li>
+  </ol>
+  <div class="concept-box" style="margin-top:0.5em; font-size:0.8em;">
+    <strong>So a complete SAP = descriptive paragraph + inferential plan per objective + sample size statement + software.</strong><br/>
+    Today we'll practise the sample size piece. After the exercises, we'll see a complete SAP that ties all three blocks together.
+  </div>
+  <aside class="notes">
+    Ethics committees and reviewers want to know: WHAT test, WHY that test, HOW you'll handle confounders, and WHAT you'll do about missing data. Most student protocols skip all of this. Setting the expectation now so the exercises feel purposeful.
+  </aside>
+</section>
+
 <!-- THE DECISION PROCESS -->
 <section>
   <h2>The decision process</h2>
@@ -848,56 +868,19 @@
 
 
 <!-- ═══════════════════════════════════════════════════════ -->
-<!-- SECTION: WRITING A COMPLETE ANALYSIS PLAN (SAP) -->
+<!-- SECTION: PUTTING IT ALL TOGETHER -->
 <!-- ═══════════════════════════════════════════════════════ -->
 <section class="section-divider" data-background-color="#0d9488">
   <h1 style="color:white !important;">Part 4</h1>
-  <p style="color:#ccfbf1;">Beyond Sample Size — Writing a Complete Analysis Plan</p>
-  <p style="color:#99f6e4; font-size:0.6em;">The SAP is not just "n = 384". It tells the reader exactly how you will analyse the data.</p>
-</section>
-
-<!-- ANATOMY OF A FULL SAP -->
-<section>
-  <h2>Anatomy of a Complete Statistical Analysis Plan</h2>
-  <p style="font-size:0.82em;">Your protocol's SAP section should cover <strong>three blocks</strong>:</p>
-  <div style="display:flex; gap:0.8em; font-size:0.75em;">
-    <div class="concept-box" style="flex:1; border-left-color:#0d9488;">
-      <strong>1. Descriptive Statistics</strong><br/>
-      How you will <em>summarize</em> the data: mean ± SD or median (IQR) for continuous variables, frequency (%) for categorical. State which summary measure for each variable and how normality is assessed.
-    </div>
-    <div class="concept-box" style="flex:1; border-left-color:#2563eb;">
-      <strong>2. Inferential Analysis</strong><br/>
-      The statistical test for each objective — primary outcome first, then secondary. Include: the test name, why it is appropriate, confounder handling, significance level, and any multiplicity adjustment.
-    </div>
-    <div class="concept-box" style="flex:1; border-left-color:#7c3aed;">
-      <strong>3. Sample Size</strong><br/>
-      The calculation you just learned: test, parameters, source citation, analytical n, dropout-adjusted n. This anchors the whole plan.
-    </div>
-  </div>
-  <aside class="notes">
-    Most students only write the sample size part. The analysis plan tells the ethics committee and reviewers that you know what you're going to do with the data BEFORE you collect it. Pre-registration of analysis prevents p-hacking.
-  </aside>
-</section>
-
-<!-- INFERENTIAL SAP — WHAT TO INCLUDE -->
-<section>
-  <h2>Writing the Inferential Analysis Paragraph</h2>
-  <p style="font-size:0.82em;">For <strong>each objective</strong>, state:</p>
-  <ol style="font-size:0.78em;">
-    <li><strong>Primary outcome</strong> and its measurement scale (continuous/categorical/time-to-event)</li>
-    <li><strong>Statistical test</strong> — name it explicitly (e.g., "independent t-test", "Mann-Whitney U", "chi-square test", "Cox proportional hazards")</li>
-    <li><strong>Confounder handling</strong> — if applicable: multivariable regression, stratification, propensity score</li>
-    <li><strong>Significance level</strong> — typically α = 0.05 two-sided; state if one-sided (and justify)</li>
-    <li><strong>Multiplicity adjustment</strong> — if multiple primary outcomes or comparisons: Bonferroni, Holm, FDR</li>
-    <li><strong>Missing data approach</strong> — complete case analysis, multiple imputation, or intention-to-treat</li>
-    <li><strong>Software</strong> — "Analysis will be performed using R (v4.x) / SPSS (v28) / Stata (v17)"</li>
-  </ol>
+  <p style="color:#ccfbf1;">Putting It All Together — From Sample Size to Complete SAP</p>
+  <p style="color:#99f6e4; font-size:0.6em;">You've practised the sample size block. Now let's see the full picture.</p>
 </section>
 
 <!-- EXAMPLE: FULL SAP FOR THE TXA EXERCISE -->
 <section>
-  <h2>Example: Full SAP for the TXA in LSCS Study</h2>
-  <div class="sap-text" style="font-size:0.62em; line-height:1.7;">
+  <h2>Complete SAP — TXA in LSCS (Exercise 2)</h2>
+  <p style="font-size:0.72em;">Remember the three blocks from Part 1: <strong>descriptive + inferential + sample size</strong>. Here's what the full SAP paragraph looks like for the TXA study you just solved:</p>
+  <div class="sap-text" style="font-size:0.6em; line-height:1.7;">
     <strong>Descriptive statistics:</strong> Continuous variables will be summarized as mean ± SD or median (IQR) depending on normality assessed by Shapiro-Wilk test. Categorical variables will be presented as frequency (%).<br/><br/>
     <strong>Primary analysis:</strong> Intraoperative blood loss (mL) between TXA and placebo groups will be compared using an <strong>independent-samples t-test</strong> (or Mann-Whitney U test if non-normal). The primary outcome will be reported as mean difference with 95% CI. A two-sided <strong>p &lt; 0.05</strong> will be considered statistically significant.<br/><br/>
     <strong>Secondary analyses:</strong> Need for additional uterotonics (yes/no) will be compared using chi-square test. Pre- to post-operative Hb change will be compared using independent t-test. No multiplicity adjustment will be applied for secondary outcomes, which are exploratory.<br/><br/>
@@ -915,10 +898,10 @@
       <strong>Step 1:</strong> Use ChooseMyStat to get your <strong>sample size statement</strong> + <strong>test recommendation</strong> (the SAP Text tab gives you both)
     </div>
     <div class="concept-box" style="border-left-color:#2563eb;">
-      <strong>Step 2:</strong> Write the <strong>descriptive statistics</strong> paragraph — this is nearly the same for every study (template on earlier slide)
+      <strong>Step 2:</strong> Add the <strong>descriptive statistics</strong> paragraph — use the template from Part 1, it's nearly the same for every study
     </div>
     <div class="concept-box" style="border-left-color:#7c3aed;">
-      <strong>Step 3:</strong> Write the <strong>inferential plan</strong> for each objective — use the test name from ChooseMyStat, add confounder handling and missing data approach
+      <strong>Step 3:</strong> Add the <strong>inferential plan</strong> for each objective — test name from ChooseMyStat, confounder handling, missing data approach
     </div>
     <div class="concept-box" style="border-left-color:#d97706;">
       <strong>Step 4 (optional):</strong> Download your plan from ChooseMyStat and <strong>feed it to any GenAI</strong> (ChatGPT, Claude, Gemini) to stitch it into a polished paragraph. <em>Always review and edit the output!</em>
