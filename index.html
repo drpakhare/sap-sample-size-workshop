@@ -570,12 +570,12 @@
         "To estimate the prevalence of anaemia among pregnant women with an absolute precision of ±5 percentage points and 95% confidence, assuming an expected prevalence of 52% <strong>(IIPS &amp; ICF. NFHS-5, 2019–21. Mumbai: IIPS, 2021)</strong>, a minimum of 384 subjects is required. Accounting for an anticipated 10% non-response rate, the enrollment target is 427 subjects."
       </div>
       <div class="concept-box" style="font-size:0.75em;">
-        <strong>Discussion:</strong> Note how the NFHS-5 citation is embedded. What if prevalence is unknown? Using p = 0.50 maximises n (gives 385 — most conservative). But for <em>low</em> prevalence (e.g., p = 0.05), this "safe" default gives a sample 5× larger than needed. In practice: use the best available estimate from literature, not p = 0.50 as a shortcut.
+        <strong>Discussion:</strong> Note how the NFHS-5 citation is embedded. What if prevalence is unknown? Using p = 0.50 maximises n <em>only if precision (d) stays at ±5%</em> (gives 385). But for <strong>low prevalence</strong> (e.g., p = 0.05), d = 0.05 is meaningless (CI: 0–10%!). You'd need d ≈ 0.01 (±20% of p), giving n ≈ <strong>1,825</strong> — far more than 385. So p = 0.50 is NOT always conservative — for rare outcomes it dangerously <em>underestimates</em> n.
       </div>
     </div>
   </div>
   <aside class="notes">
-    Key teaching point: p = 0.50 maximises n mathematically (p×q is maximal at 0.5). BUT — for estimating a rare condition (say p = 0.05), using p = 0.50 gives n = 385 when you really only need n = 73. It's the "safe" default, but often wastefully conservative. Better approach: always look for a pilot estimate or NFHS/local data. Also discuss: NFHS-5 or a local study as the source for the expected prevalence.
+    Key teaching point: p = 0.50 maximises n ONLY when d is held at ±5%. But for low prevalence (say p = 0.05), d = 0.05 gives a useless CI (0–10%). You'd need d ≈ 0.01 (±20% of p), giving n ≈ 1,825 — far MORE than 385. So the "use p = 0.50" shortcut actually UNDERESTIMATES n for rare outcomes. The correct approach: always use the best available estimate of p from literature/NFHS, and set precision relative to p. Also discuss: NFHS-5 or a local study as the source for the expected prevalence.
   </aside>
 </section>
 
